@@ -1,0 +1,103 @@
+---
+title: "Replication of Study 1 from Rottman & Young (2019, Psychological Science)"
+author: "Cristina Ceballos (cceballos@stanford.edu)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+---
+
+<!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
+
+##Introduction
+
+The Rottman paper examines a question in moral psychology: how do people make moral judgments? Rottman thinks moral judgments are different across different domains. *Harm violations* (e.g. punching someone) are judged differently than *purity violations* (e.g. eating flesh from a dead person). Rottman proposes a "mere-trace hypothesis." According to Rottman's mere-trace hypothesis, "judgments of purity violations uniquely hinge on assessments of whether any amount of a transgresssion occurs and are only minimally affected by considerations of rate or quantity." Rottman at 1152. While the quantity or frequency of wrongdoing matters in *harm* violations (e.g. punching 50 people is worse than punching 1 person), quantity and frequency matter less in *purity* violations (e.g. eating flesh from 1 dead person is about as bad, morally speaking, as eating flesh from 50 dead people). According to Rottman's hypothesis, judgments of purity violations follow a "mere-trace" kind of reasoning, where even one small trace of a purity violation is enough to ruin the whole barrel. 
+
+I chose Study 1 in Rottman's paper because of my interests in moral psychology. Rottman's question about moral judgments--is harm additive? are moral judgments different across different domains? how important are intentions?--have interesting implications for moral philosophy. In addition, Study 1 falls within the constraints of my (limited) technical skills and the class's research budget. Study 1 involved 200 participants on Mechanical Turk. Each participant completed a 16-item survey which asked them to rate the moral wrongness of an action (e.g. "How bad is it, on a scale from 0 to 100, when a person starves a goat?") Rottman's original paper provides the total set of 32 questions used in the Mechanical Turk surveys. He also provides Supplemental Materials online that explain the equivalence between the harm violations and purity violations, which were matched for overall severity. 
+
+With respect to my programming background, I have taken only one programming class, Stats 60. I believe this replication is feasible given my programming background and that it will push me to improve my skills.
+
+Below is the link to my repository and the original paper by Rottman, titled "Specks of Dirt and Tons of Pain: Dosage Distinguishes Impurity From Harm."
+https://github.com/cceballos-stanford/rottman2019
+
+
+##Methods
+
+###Power Analysis
+
+Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
+
+###Planned Sample
+
+Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.
+
+###Materials
+
+All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+
+###Procedure	
+
+Can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+
+###Analysis Plan
+
+Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
+
+**Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
+
+###Differences from Original Study
+
+Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+
+### Methods Addendum (Post Data Collection)
+
+You can comment this section out prior to final report with data collection.
+
+#### Actual Sample
+  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+
+#### Differences from pre-data collection methods plan
+  Any differences from what was described as the original plan, or “none”.
+
+
+##Results
+
+
+### Data preparation
+
+Data preparation following the analysis plan.
+	
+```{r include=F}
+###Data Preparation
+
+####Load Relevant Libraries and Functions
+
+####Import data
+
+#### Data exclusion / filtering
+
+#### Prepare data for analysis - create columns etc.
+```
+
+### Confirmatory analysis
+
+The analyses as specified in the analysis plan.  
+
+*Side-by-side graph with original graph is ideal here*
+
+###Exploratory analyses
+
+Any follow-up analyses desired (not required).  
+
+## Discussion
+
+### Summary of Replication Attempt
+
+Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+
+### Commentary
+
+Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.

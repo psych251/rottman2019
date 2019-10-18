@@ -21,10 +21,16 @@ I chose Study 1 in Rottman's paper because of my interests in moral psychology. 
 With respect to my programming background, I have taken only one programming class, Stats 60. I believe this replication is feasible given my programming background and that it will push me to improve my skills.
 
 Below is the link to my repository and the original paper by Rottman, titled "Specks of Dirt and Tons of Pain: Dosage Distinguishes Impurity From Harm."
-https://github.com/cceballos-stanford/rottman2019
+https://github.com/psych251/rottman2019
+
 
 
 ##Methods
+
+
+
+
+
 
 ###Power Analysis
 

@@ -27,36 +27,47 @@ https://github.com/psych251/rottman2019
 
 ##Methods
 
-
-
-
-
-
 ###Power Analysis
+
+[TBC after we discuss in class*]
 
 Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
 
 ###Planned Sample
 
-Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.
+I will follow Rottman's original study and select a target sample size of 200 total participants. Participants will be recruited via Amazon's Mechanical Turk. I will limit particpants to U.S.-based IP addresses and MTurk "Masters."
+
+Participants who fail attention checks will be excluded, but will still be paid. Participants who completed the pilot study will also be excluded, since they have already completed the task, but they will still be paid.
 
 ###Materials
 
-All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the same section, not in two separate sections, and the Rottman text is replicated below.
+
+"After providing consent to participate in the study, each participant was presented with 16 violations that varied by domain (harm vs. purity), dosage (low vs. high), and dosage type (magnitude vs. frequency). Participants saw two violations from each of the eight possible combinations of these variable levels (see Table 1). The presentation of these violations was counterbalanced across participants such that each participant saw either a low- or a high-dosage version of each violation and saw the opposite dosage from a corresponding violation in the other content domain. For example, participants who judged “A person throws a large rock at a farm animal” did not see “A person throws a small rock at a farm animal” but instead saw “A person eats a small amount of flesh from a dead person.” The two attention-check questions were also randomly presented within this sequence. After each moral violation was presented, participants were asked, “How morally wrong was this action?” and were prompted to respond on a slider scale from 0 (not at all) to 100 (extremely). 
+
+Participants were then asked to provide basic demographic information and were debriefed.
+
+The harm and purity violations were carefully matched for overall severity during stimulus construction, thus reducing the potential for confounding factors (Gray & Keeney, 2015), and their equivalence was confirmed in a pilot study (see the Supplemental Material available online). Because atypicality is a feature of the purity domain (i.e., impurity is often a function of the perceived unnaturalness of actions; Giner-Sorolla, Bosson, Caswell, & Hettinger, 2012; Graham, 2015), actions were not matched on this dimension." 
+
 
 ###Procedure	
 
-Can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+I precisely followed the procedure in Rottman's paper. Rottman's "Materials and Procedure" section is quted above.
 
 ###Analysis Plan
 
-Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
+My analysis will replicate the Rottman analysis. 
 
-**Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
+First, I will analyze the difference in means between the high-dosage and low-dosage versions of the scenarios. I will create a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
+
+Second, I will create a linear regression model to analyze the data. I am not certain if I will follow Rottman's exact analysis for the linear regression. Rottman created a "linear mixed model,"  not a straighforward linear regression, and Rottman's model also seems to include some fancy footwork with respect to variables (for example, Rottman dropped  dosage type as a variable, and he also included random intercepts). I am not sure if I will exactly replicate Rottman's model--I would first want to know a bit more about his choices, to ensure that the model is not just searching for a signal amidst all the noise. I will have to ask the instructors, who know more about statistics than I do, about Rottman's choices with respect to the linear regression model.
+
+Rottman's analysis was the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
+
 
 ###Differences from Original Study
 
-Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+I will strive to exactly replicate Rottman's experiment. My linear regression analysis, however, may differ from Rottman's.
 
 ### Methods Addendum (Post Data Collection)
 
@@ -76,21 +87,76 @@ You can comment this section out prior to final report with data collection.
 
 Data preparation following the analysis plan.
 	
-```{r include=F}
+```{r include=T}
 ###Data Preparation
+
+# I will create a survey on Qualtrics, and link that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
 
 ####Load Relevant Libraries and Functions
 
+# The libraries I need are the useful, all-purpose libraries:
+
+library(foreign) # for reading spss formatted data
+library(tidyr)
+library(dplyr)
+library(stringr) 
+library(ggplot2) # will allow me to create the violin plot
+
 ####Import data
+
+# data = read.spss("Rottman2019ReplicationData.sav", to.data.frame=T)
 
 #### Data exclusion / filtering
 
+# I will exclude all participants who fail the attention check
+# I will exclude participants who did my test twice-in the pilot and in the real study.
+
+# data_filtered = data %>% 
+  #  filter(if failed attention check) 
+
 #### Prepare data for analysis - create columns etc.
+  
+  # I can use "mutate" to create additional columns if needed.
+  
 ```
 
 ### Confirmatory analysis
 
 The analyses as specified in the analysis plan.  
+
+```{r include=T}
+
+#First analysis, difference of means
+
+## For the difference of means analysis, I will use the functions means. I'll also have to use group_by and summarize, together, to get the mean of the appropriate rows.
+
+
+#Second analysis, the violin plot
+
+## To create the violin plot, I will use the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
+
+# Basic violin plot
+# p <- ggplot(ToothGrowth, aes(x=dose, y=len)) + 
+  # geom_violin()
+# p
+
+# Rotate the violin plot
+# p + coord_flip()
+# Set trim argument to FALSE
+# ggplot(ToothGrowth, aes(x=dose, y=len)) + 
+  # geom_violin(trim=FALSE)
+
+
+# Third analysis, the linear regression
+
+# For the linear regression, I will use the built-in function from R, lm.
+# To do the statistical tricks described by Rottman (dropping a variable, adding random intercepts), 
+# I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.
+
+  
+```
+
+
 
 *Side-by-side graph with original graph is ideal here*
 

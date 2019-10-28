@@ -104,19 +104,34 @@ library(ggplot2) # will allow me to create the violin plot
 
 ####Import data
 
-# data = read.spss("Rottman2019ReplicationData.sav", to.data.frame=T)
+data = read.csv("PilotAdata.csv")
+
+#### Look at data
+
+View(data)
+colnames(data)
 
 #### Data exclusion / filtering
 
-# I will exclude all participants who fail the attention check
-# I will exclude participants who did my test twice-in the pilot and in the real study.
+# For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
+# So I need to get rid of the ~25 entrieIs that are spam. The spam were all short, less than 75 seconds
+# I'll also have to filter out the people who failed the attention checks.
+# Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral
+# wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
 
-# data_filtered = data %>% 
-  #  filter(if failed attention check) 
+
+data_filtered <- data %>% 
+    filter(Att1_8 > 49)  %>%  # fail first attention check, "a person destroys the entire planet"
+    filter(Att2_4 < 51)  %>%  # fail second attention check, "a person gives money to charity"
+    filter(Duration..in.seconds. > 75) # filter out any quizzes that were completed in less than 75 seconds
+
+# View(data_filtered)
+
+#For some reason the above code is not working.... I'll have to go to office hours
+
 
 #### Prepare data for analysis - create columns etc.
   
-  # I can use "mutate" to create additional columns if needed.
   
 ```
 
@@ -127,9 +142,23 @@ The analyses as specified in the analysis plan.
 ```{r include=T}
 
 #First analysis, difference of means
+# I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
 
-## For the difference of means analysis, I will use the functions means. I'll also have to use group_by and summarize, together, to get the mean of the appropriate rows.
+# First I'll select only the harm transgressions, which are the A1, B1, C1, etc.
 
+# harm_data_filtered <- data_filtered %>% 
+  # select(A1, A1., B1, B1., C1, C1.   ) # ...etc. But it's making my column names weird for some reason, so I'll ask for help
+  
+# Now I'll get the difference in wrongness between the high-dosage and low-dosage versions.
+# I think I'll need a group_by and a summarize, but since none of my code is working, I'm not sure!!!
+
+
+# Then do the same thing for the purity violations
+
+```
+
+
+```{r include=T}
 
 #Second analysis, the violin plot
 
@@ -146,6 +175,13 @@ The analyses as specified in the analysis plan.
 # ggplot(ToothGrowth, aes(x=dose, y=len)) + 
   # geom_violin(trim=FALSE)
 
+# None of my code is working so I'll have to go to office hours
+
+```
+
+
+```{r include=T}
+
 
 # Third analysis, the linear regression
 
@@ -153,6 +189,7 @@ The analyses as specified in the analysis plan.
 # To do the statistical tricks described by Rottman (dropping a variable, adding random intercepts), 
 # I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.
 
+# None of my code is working so I will go to office hours 
   
 ```
 

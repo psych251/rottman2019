@@ -12,7 +12,7 @@
 
 <meta name="author" content="Cristina Ceballos (cceballos@stanford.edu)" />
 
-<meta name="date" content="2019-10-20" />
+<meta name="date" content="2019-10-27" />
 
 <title>Replication of Study 1 from Rottman &amp; Young (2019, Psychological Science)</title>
 
@@ -1513,7 +1513,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Study 1 from Rottman &amp; Young (2019, Psychological Science)</h1>
 <h4 class="author">Cristina Ceballos (<a href="mailto:cceballos@stanford.edu" class="email">cceballos@stanford.edu</a>)</h4>
-<h4 class="date">October 20, 2019</h4>
+<h4 class="date">October 27, 2019</h4>
 
 </div>
 
@@ -1585,29 +1585,78 @@ library(ggplot2) # will allow me to create the violin plot
 
 ####Import data
 
-# data = read.spss(&quot;Rottman2019ReplicationData.sav&quot;, to.data.frame=T)
+data = read.csv(&quot;PilotAdata.csv&quot;)
 
-#### Data exclusion / filtering
+#### Look at data
 
-# I will exclude all participants who fail the attention check
-# I will exclude participants who did my test twice-in the pilot and in the real study.
+View(data)
+colnames(data)</code></pre>
+<pre><code>##  [1] &quot;StartDate&quot;             &quot;EndDate&quot;              
+##  [3] &quot;Status&quot;                &quot;IPAddress&quot;            
+##  [5] &quot;Progress&quot;              &quot;Duration..in.seconds.&quot;
+##  [7] &quot;Finished&quot;              &quot;RecordedDate&quot;         
+##  [9] &quot;ResponseId&quot;            &quot;RecipientLastName&quot;    
+## [11] &quot;RecipientFirstName&quot;    &quot;RecipientEmail&quot;       
+## [13] &quot;ExternalReference&quot;     &quot;LocationLatitude&quot;     
+## [15] &quot;LocationLongitude&quot;     &quot;DistributionChannel&quot;  
+## [17] &quot;UserLanguage&quot;          &quot;A1_10&quot;                
+## [19] &quot;A2._4&quot;                 &quot;A1._8&quot;                
+## [21] &quot;A2_4&quot;                  &quot;B1_8&quot;                 
+## [23] &quot;B2._4&quot;                 &quot;B1._8&quot;                
+## [25] &quot;B2_4&quot;                  &quot;C1_8&quot;                 
+## [27] &quot;C2._4&quot;                 &quot;C1._8&quot;                
+## [29] &quot;C2_4&quot;                  &quot;D1_8&quot;                 
+## [31] &quot;D2._4&quot;                 &quot;D1._8&quot;                
+## [33] &quot;D2_4&quot;                  &quot;E1_8&quot;                 
+## [35] &quot;E2._4&quot;                 &quot;E1._8&quot;                
+## [37] &quot;E2_4&quot;                  &quot;F1_8&quot;                 
+## [39] &quot;F2._4&quot;                 &quot;F1._8&quot;                
+## [41] &quot;F2_4&quot;                  &quot;G1_8&quot;                 
+## [43] &quot;G2._4&quot;                 &quot;G1._8&quot;                
+## [45] &quot;G2_4&quot;                  &quot;H1_8&quot;                 
+## [47] &quot;H2._4&quot;                 &quot;H1._8&quot;                
+## [49] &quot;H2_4&quot;                  &quot;Att1_8&quot;               
+## [51] &quot;Att2_4&quot;                &quot;Gender&quot;               
+## [53] &quot;Gender_4_TEXT&quot;         &quot;Age&quot;                  
+## [55] &quot;mTurkCode&quot;</code></pre>
+<pre class="r"><code>#### Data exclusion / filtering
 
-# data_filtered = data %&gt;% 
-  #  filter(if failed attention check) 
+# For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
+# So I need to get rid of the ~25 entrieIs that are spam. The spam were all short, less than 75 seconds
+# I&#39;ll also have to filter out the people who failed the attention checks.
+# Per Rottman, you fail the attention check if you rate &quot;a person destroys the entire planet&quot; below 49 on the moral
+# wrongness scale, or if you rate &quot;a person gives money to a charitable organization&quot; above 51 on moral wrongness.
 
-#### Prepare data for analysis - create columns etc.
-  
-  # I can use &quot;mutate&quot; to create additional columns if needed.</code></pre>
+
+data_filtered &lt;- data %&gt;% 
+    filter(Att1_8 &gt; 49)  %&gt;%  # fail first attention check, &quot;a person destroys the entire planet&quot;
+    filter(Att2_4 &lt; 51)  %&gt;%  # fail second attention check, &quot;a person gives money to charity&quot;
+    filter(Duration..in.seconds. &gt; 75) # filter out any quizzes that were completed in less than 75 seconds</code></pre>
+<pre><code>## Warning in Ops.factor(Att1_8, 49): &#39;&gt;&#39; not meaningful for factors</code></pre>
+<pre class="r"><code># View(data_filtered)
+
+#For some reason the above code is not working.... I&#39;ll have to go to office hours
+
+
+#### Prepare data for analysis - create columns etc.</code></pre>
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
 <p>The analyses as specified in the analysis plan.</p>
 <pre class="r"><code>#First analysis, difference of means
+# I&#39;m trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I&#39;ll find the same thing.
 
-## For the difference of means analysis, I will use the functions means. I&#39;ll also have to use group_by and summarize, together, to get the mean of the appropriate rows.
+# First I&#39;ll select only the harm transgressions, which are the A1, B1, C1, etc.
+
+# harm_data_filtered &lt;- data_filtered %&gt;% 
+  # select(A1, A1., B1, B1., C1, C1.   ) # ...etc. But it&#39;s making my column names weird for some reason, so I&#39;ll ask for help
+  
+# Now I&#39;ll get the difference in wrongness between the high-dosage and low-dosage versions.
+# I think I&#39;ll need a group_by and a summarize, but since none of my code is working, I&#39;m not sure!!!
 
 
-#Second analysis, the violin plot
+# Then do the same thing for the purity violations</code></pre>
+<pre class="r"><code>#Second analysis, the violin plot
 
 ## To create the violin plot, I will use the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
 
@@ -1622,12 +1671,14 @@ library(ggplot2) # will allow me to create the violin plot
 # ggplot(ToothGrowth, aes(x=dose, y=len)) + 
   # geom_violin(trim=FALSE)
 
-
-# Third analysis, the linear regression
+# None of my code is working so I&#39;ll have to go to office hours</code></pre>
+<pre class="r"><code># Third analysis, the linear regression
 
 # For the linear regression, I will use the built-in function from R, lm.
 # To do the statistical tricks described by Rottman (dropping a variable, adding random intercepts), 
-# I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.</code></pre>
+# I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.
+
+# None of my code is working so I will go to office hours </code></pre>
 <p><em>Side-by-side graph with original graph is ideal here</em></p>
 <p>###Exploratory analyses</p>
 <p>Any follow-up analyses desired (not required).</p>

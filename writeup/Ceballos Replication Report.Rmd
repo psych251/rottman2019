@@ -97,14 +97,11 @@ Data preparation following the analysis plan.
 # The libraries I need are the useful, all-purpose libraries:
 
 library(foreign) # for reading spss formatted data
-library(tidyr)
-library(dplyr)
-library(stringr) 
-library(ggplot2) # will allow me to create the violin plot
+library(tidyverse)
 
 ####Import data
 
-data = read.csv("PilotAdata.csv")
+data = read_csv("PilotAdata.csv", heade)
 
 #### Look at data
 

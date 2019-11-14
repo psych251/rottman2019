@@ -52,7 +52,11 @@ The harm and purity violations were carefully matched for overall severity durin
 
 ###Procedure	
 
-I precisely followed the procedure in Rottman's paper. Rottman's "Materials and Procedure" section is quted above.
+I precisely followed the procedure in Rottman's paper. Rottman's "Materials and Procedure" section is quoted above.
+
+I created a survey on Qualtrics, available here: 
+https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
+
 
 ###Analysis Plan
 
@@ -85,12 +89,15 @@ You can comment this section out prior to final report with data collection.
 
 ### Data preparation
 
+My qualtrics survey is available here:
+https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
+
 Data preparation following the analysis plan.
 	
 ```{r include=T}
 ###Data Preparation
 
-# I will create a survey on Qualtrics, and link that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
+# I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
 
 ####Load Relevant Libraries and Functions
 
@@ -99,15 +106,21 @@ Data preparation following the analysis plan.
 library(foreign) # for reading spss formatted data
 library(tidyverse)
 
-####Import data
+####Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R
 
-data = read_csv("PilotAdata.csv", heade)
+filename <- "PilotAdata.csv"
+headers = read_csv(filename, col_names = FALSE, n_max = 1)
+df = read_csv(filename, skip = 3, col_names = FALSE)
+colnames(df)= headers
 
-#### Look at data
 
-View(data)
-colnames(data)
+#### Inspect data
 
+colnames(df)
+
+```
+
+```{r include=T}
 #### Data exclusion / filtering
 
 # For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
@@ -116,19 +129,36 @@ colnames(data)
 # Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral
 # wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
 
+data <- df %>% 
+    filter(DistributionChannel == "anonymous") %>% # remove all the surveys that were unanswered and were just a "preview," leaving only the surveys that were "anonymous" 
+  filter( (Att1_8 > 49) | (Att2_4 < 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
 
-data_filtered <- data %>% 
-    filter(Att1_8 > 49)  %>%  # fail first attention check, "a person destroys the entire planet"
-    filter(Att2_4 < 51)  %>%  # fail second attention check, "a person gives money to charity"
-    filter(Duration..in.seconds. > 75) # filter out any quizzes that were completed in less than 75 seconds
+# Is the above fix okay? Am I keeping all the data I intend to keep? --> I HAVE A PROBLEM HERE!!! It's also filtering out all the people who took Att2 but not Att1. How do I get it to keep the results when Att1_8 = NA?
 
-# View(data_filtered)
+#Also, I could maybe just get rid of the first row. I think the second filter does the same thing.
 
-#For some reason the above code is not working.... I'll have to go to office hours
+#Also, is there a way to keep track of how much data is excluded?
+
+head(data)
+  
+```
+
+
+```{r include=T}
+#### Tidy my data
+
+# I have a huge, super wide dataset. How do I make this tidier? What am I even trying to turn it into?
 
 
 #### Prepare data for analysis - create columns etc.
-  
+
+# I want to add a harm column and a purity column, to know if the question asked was a harm or a purity question.
+
+# I want to add a low-dosage and a high-dosage column, to know if it was the low-dosage or high-dosage version of the q
+
+# I want to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
+
+# I should probably get rid of a lot of columns I don't need... do I need to do this?  
   
 ```
 
@@ -141,13 +171,12 @@ The analyses as specified in the analysis plan.
 #First analysis, difference of means
 # I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
 
-# First I'll select only the harm transgressions, which are the A1, B1, C1, etc.
+# Bad code below!!! I'll need to clean this up
 
-# harm_data_filtered <- data_filtered %>% 
-  # select(A1, A1., B1, B1., C1, C1.   ) # ...etc. But it's making my column names weird for some reason, so I'll ask for help
-  
-# Now I'll get the difference in wrongness between the high-dosage and low-dosage versions.
-# I think I'll need a group_by and a summarize, but since none of my code is working, I'm not sure!!!
+#diff_wrongness_rating_harm <- data %>%
+ # group_by(harm, purity)
+  #group_by(highdosage, lowdosage)
+  #summarize(meanWrongness = (mean(Wrongness, na.rm=T)))
 
 
 # Then do the same thing for the purity violations

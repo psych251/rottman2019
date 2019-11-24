@@ -94,7 +94,34 @@ You can comment this section out prior to final report with data collection.
 My qualtrics survey is available here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
+
 Data preparation following the analysis plan.
+
+###Responses to Pilot B comments:
+
+Hi Cristina, here are some major comments about the survey: 
+- good to tell turkers how long the HIT will be approximately in the instructions 
+I added this to the instructions, it will take approximately 3 minutes and Turkers will be paid 0.36 cents for their time.
+
+- should there be some instructions about how to finish this survey? did the original paper have any instruction in the beginning? 
+- I added instructions about finishing the survey and returning to MTurk to fill in the code. The instructions read:
+
+"Thank you for participating.
+
+Your validation code is:
+
+782582
+
+To receive payment for participating, click "Accept HIT" in the Mechanical Turk window, and enter this validation code, then click "Submit."
+
+some other comments: - how will you exclude participants who are not compliant or are responding randomly? 
+- I have two attention checks, which are identical to the attention checks used in the original Rottman study. The attention checks are "A person destroys the entire planet. How morally wrong was this action?", to which responders should respond "over 51" if they are paying attention, and "A person gives money to a charitable organization. How morally wrong was this action?", to which they should respond "under 49" if they are paying attention. 
+
+Please address the major comments before we can approve your pilot B. I did not see you in my office hour, I hope you have got help on your codes. I think they are also needed, but I will check with Mike whether the codes are required for approving pilot B. For the email, I believe you should have the link to the qualtrics survey in the email. Please feel free to comment here to respond. 
+- For help on my coding, I have signed up for office hours with Mike on Monday 12/2 and Monday 12/9! I will also attend your office hours 12/10. Unfortunately I will be unable to attend the 12/3 office hours since I will be on a plane during that time.
+
+
+
 	
 ```{r include=T}
 ###Data Preparation

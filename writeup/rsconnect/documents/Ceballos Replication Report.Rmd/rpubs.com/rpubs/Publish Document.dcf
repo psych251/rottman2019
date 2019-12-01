@@ -6,5 +6,5 @@ server: rpubs.com
 hostUrl: rpubs.com
 appId: https://api.rpubs.com/api/v1/document/544019/4eda581e045a4ed2945748b27cea2f02
 bundleId: https://api.rpubs.com/api/v1/document/544019/4eda581e045a4ed2945748b27cea2f02
-url: http://rpubs.com/publish/claim/544019/c75059ad188b4bcb98d71bcb0d44d506
-when: 1572240643.80614
+url: http://rpubs.com/cceballos-stanford/544019
+when: 1574638442.84014

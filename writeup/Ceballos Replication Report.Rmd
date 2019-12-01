@@ -97,32 +97,7 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 Data preparation following the analysis plan.
 
-###Responses to Pilot B comments:
 
-Hi Cristina, here are some major comments about the survey: 
-- good to tell turkers how long the HIT will be approximately in the instructions 
-I added this to the instructions, it will take approximately 3 minutes and Turkers will be paid 0.36 cents for their time.
-
-- should there be some instructions about how to finish this survey? did the original paper have any instruction in the beginning? 
-- I added instructions about finishing the survey and returning to MTurk to fill in the code. The instructions read:
-
-"Thank you for participating.
-
-Your validation code is:
-
-782582
-
-To receive payment for participating, click "Accept HIT" in the Mechanical Turk window, and enter this validation code, then click "Submit."
-
-some other comments: - how will you exclude participants who are not compliant or are responding randomly? 
-- I have two attention checks, which are identical to the attention checks used in the original Rottman study. The attention checks are "A person destroys the entire planet. How morally wrong was this action?", to which responders should respond "over 51" if they are paying attention, and "A person gives money to a charitable organization. How morally wrong was this action?", to which they should respond "under 49" if they are paying attention. 
-
-Please address the major comments before we can approve your pilot B. I did not see you in my office hour, I hope you have got help on your codes. I think they are also needed, but I will check with Mike whether the codes are required for approving pilot B. For the email, I believe you should have the link to the qualtrics survey in the email. Please feel free to comment here to respond. 
-- For help on my coding, I have signed up for office hours with Mike on Monday 12/2 and Monday 12/9! I will also attend your office hours 12/10. Unfortunately I will be unable to attend the 12/3 office hours since I will be on a plane during that time.
-
-
-
-	
 ```{r include=T}
 ###Data Preparation
 
@@ -156,7 +131,7 @@ colnames(df)
 #### Data exclusion / filtering
 
 # For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
-# So I need to get rid of the ~25 entrieIs that are spam. The spam were all short, less than 75 seconds
+# So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds
 # I'll also have to filter out the people who failed the attention checks.
 # Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral
 # wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
@@ -169,7 +144,7 @@ data <- df %>%
 
 #Also, I could maybe just get rid of the first row. I think the second filter does the same thing.
 
-#Also, is there a way to keep track of how much data is excluded? I'm planning to go to office hours on Tuesday 11/19 and go through many of these questions.
+#Also, is there a way to keep track of how much data is excluded? I'm planning to go to office hours on Tuesday 12/3 and go through many of these questions.
 
 head(data)
   
@@ -181,14 +156,20 @@ head(data)
 
 # I have a huge, super wide dataset. How do I make this tidier? What am I even trying to turn it into?
 
+d <- data %>%
+  pivot_longer(cols = A1_10:Att2_4, names_to = "Prompt", values_to = "Rating") %>% # pivots into long form
+  select(c("Prompt", "Rating")) %>% # keeps only the columns I need
+  mutate(Purity_Violation = grepl("2", x = Prompt)) %>% # adds a column that says "TRUE" if the violation is a purity violation and "FALSE" if the violation is a harm violation 
+  mutate(High_Dosage = grepl("'", x = Prompt)) # adds a column that says "TRUE" if the violation is the high-dosage version violation and "FALSE" if the violation is the low-dosage version violation 
 
-#### Prepare data for analysis - create columns etc.
+colnames(d)
 
-# I want to add a harm column and a purity column, to know if the question asked was a harm or a purity question.
+# Now I only have four columns! Hurray! My data is nice and clean and long.
 
-# I want to add a low-dosage and a high-dosage column, to know if it was the low-dosage or high-dosage version of the q
+## Do I need to clean this up and label by subject?? I lost a lot of information when I tidied my data
 
-# I want to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
+
+# Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
 
 # I should probably get rid of a lot of columns I don't need... do I need to do this?  
   
@@ -201,17 +182,41 @@ The analyses as specified in the analysis plan.
 ```{r include=T}
 
 #First analysis, difference of means
+
 # I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
 
-# Bad code below!!! I'll need to clean this up
+# Do I also need to group by prompt?? so each question gets its own analysis?
 
-#diff_wrongness_rating_harm <- data %>%
- # group_by(harm, purity)
-  #group_by(highdosage, lowdosage)
-  #summarize(meanWrongness = (mean(Wrongness, na.rm=T)))
+means <- d %>%
+  group_by(Purity_Violation, High_Dosage) %>%
+  summarize(meanWrongness = (mean(Rating, na.rm=T)))
+
+mean_Harm_LowDosage <- means[1,3]
+mean_Harm_HighDosage <- means[2,3]
+mean_Purity_LowDosage <- means[3,3]
+mean_Purity_HighDosage <- means[4,3]
+
+# The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
+mean_Harm_HighDosage - mean_Harm_LowDosage
+mean_Purity_HighDosage - mean_Purity_LowDosage
+
+# Now I'll do the same analysis for standard deviations
+sd <- d %>%
+  group_by(Purity_Violation, High_Dosage) %>%
+  summarize(meanWrongness = (sd(Rating, na.rm=T)))
+
+sd_Harm_LowDosage <- sd[1,3]
+sd_Harm_HighDosage <- sd[2,3]
+sd_Purity_LowDosage <- sd[3,3]
+sd_Purity_HighDosage <- sd[4,3]
+
+# The difference in standard deviations between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
+sd_Harm_HighDosage - sd_Harm_LowDosage
+sd_Purity_HighDosage - sd_Purity_LowDosage
 
 
-# Then do the same thing for the purity violations
+# Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Also, I couldn't get the standard deviation, is that an error in my code?
+
 
 ```
 
@@ -222,24 +227,19 @@ The analyses as specified in the analysis plan.
 
 ## To create the violin plot, I will use the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
 
-# Basic violin plot
-# p <- ggplot(ToothGrowth, aes(x=dose, y=len)) + 
-  # geom_violin()
-# p
+# Library
+library(ggplot2)
 
-# Rotate the violin plot
-# p + coord_flip()
-# Set trim argument to FALSE
-# ggplot(ToothGrowth, aes(x=dose, y=len)) + 
-  # geom_violin(trim=FALSE)
+# Most basic violin chart
+ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
+  geom_violin()
 
-# None of my code is working so I'll have to go to office hours
+# Is this the right way to make four plots? Also, why does it look so weird?
 
 ```
 
 
 ```{r include=T}
-
 
 # Third analysis, the linear regression
 

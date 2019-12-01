@@ -12,7 +12,7 @@ output:
 
 <!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
 
-##Introduction
+## Introduction
 
 The Rottman paper examines a question in moral psychology: how do people make moral judgments? Rottman thinks moral judgments are different across different domains. *Harm violations* (e.g. punching someone) are judged differently than *purity violations* (e.g. eating flesh from a dead person). Rottman proposes a "mere-trace hypothesis." According to Rottman's mere-trace hypothesis, "judgments of purity violations uniquely hinge on assessments of whether any amount of a transgresssion occurs and are only minimally affected by considerations of rate or quantity." Rottman at 1152. While the quantity or frequency of wrongdoing matters in *harm* violations (e.g. punching 50 people is worse than punching 1 person), quantity and frequency matter less in *purity* violations (e.g. eating flesh from 1 dead person is about as bad, morally speaking, as eating flesh from 50 dead people). According to Rottman's hypothesis, judgments of purity violations follow a "mere-trace" kind of reasoning, where even one small trace of a purity violation is enough to ruin the whole barrel. 
 
@@ -27,21 +27,21 @@ The link to my Qualtrics survey is here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 
-##Methods
+## Methods
 
-###Power Analysis
+### Power Analysis
 
 [TBC after we discuss in class*]
 
 Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
 
-###Planned Sample
+### Planned Sample
 
 I will follow Rottman's original study and select a target sample size of 200 total participants. Participants will be recruited via Amazon's Mechanical Turk. I will limit particpants to U.S.-based IP addresses and MTurk "Masters."
 
 Participants who fail attention checks will be excluded, but will still be paid. Participants who completed the pilot study will also be excluded, since they have already completed the task, but they will still be paid.
 
-###Materials
+### Materials
 
 My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the same section, not in two separate sections, and the Rottman text is replicated below.
 
@@ -52,7 +52,7 @@ Participants were then asked to provide basic demographic information and were d
 The harm and purity violations were carefully matched for overall severity during stimulus construction, thus reducing the potential for confounding factors (Gray & Keeney, 2015), and their equivalence was confirmed in a pilot study (see the Supplemental Material available online). Because atypicality is a feature of the purity domain (i.e., impurity is often a function of the perceived unnaturalness of actions; Giner-Sorolla, Bosson, Caswell, & Hettinger, 2012; Graham, 2015), actions were not matched on this dimension." 
 
 
-###Procedure	
+### Procedure	
 
 I precisely followed the procedure in Rottman's paper. Rottman's "Materials and Procedure" section is quoted above.
 
@@ -60,7 +60,7 @@ I created a survey on Qualtrics, available here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 
-###Analysis Plan
+### Analysis Plan
 
 My analysis will replicate the Rottman analysis. 
 
@@ -71,7 +71,7 @@ Second, I will create a linear regression model to analyze the data. I am not ce
 Rottman's analysis was the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
 
 
-###Differences from Original Study
+### Differences from Original Study
 
 I will strive to exactly replicate Rottman's experiment. My linear regression analysis, however, may differ from Rottman's.
 
@@ -86,7 +86,7 @@ You can comment this section out prior to final report with data collection.
   Any differences from what was described as the original plan, or “none”.
 
 
-##Results
+## Results
 
 
 ### Data preparation
@@ -99,7 +99,6 @@ Data preparation following the analysis plan.
 
 
 ```{r include=T}
-###Data Preparation
 
 # I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
 
@@ -127,6 +126,8 @@ colnames(df)
 
 ```
 
+#### Data exclusion / filtering
+
 ```{r include=T}
 #### Data exclusion / filtering
 
@@ -150,6 +151,8 @@ head(data)
   
 ```
 
+### Tidy my data
+
 
 ```{r include=T}
 #### Tidy my data
@@ -168,7 +171,6 @@ colnames(d)
 
 ## Do I need to clean this up and label by subject?? I lost a lot of information when I tidied my data
 
-
 # Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
 
 # I should probably get rid of a lot of columns I don't need... do I need to do this?  
@@ -178,6 +180,9 @@ colnames(d)
 ### Confirmatory analysis
 
 The analyses as specified in the analysis plan.  
+
+##### First analysis, difference of means
+
 
 ```{r include=T}
 
@@ -220,6 +225,8 @@ sd_Purity_HighDosage - sd_Purity_LowDosage
 
 ```
 
+#### Second analysis, the violin plot
+
 
 ```{r include=T}
 
@@ -238,6 +245,7 @@ ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
 
 ```
 
+#### Third analysis, the linear regression
 
 ```{r include=T}
 
@@ -247,15 +255,18 @@ ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
 # To do the statistical tricks described by Rottman (dropping a variable, adding random intercepts), 
 # I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.
 
-# None of my code is working so I will go to office hours 
+library(lme4)
+
+lmer(Rating ~ Purity_Violation*High_Dosage + (Purity_Violation | High_Dosage), d)
+
+# lmer was the linear mixed model that Rottman used in his analysis. But I have no idea what the code is doing, and there seems to be an error too
+
   
 ```
 
 
 
-*Side-by-side graph with original graph is ideal here*
-
-###Exploratory analyses
+### Exploratory analyses
 
 Any follow-up analyses desired (not required).  
 

@@ -41,7 +41,7 @@ I will follow Rottman's original study and select a target sample size of 200 to
 
 Participants who fail attention checks will be excluded, but will still be paid. Participants who completed the pilot study will also be excluded, since they have already completed the task, but they will still be paid.
 
-### Materials
+### Materials & Procedure
 
 My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the same section, not in two separate sections, and the Rottman text is replicated below.
 
@@ -50,14 +50,6 @@ My replication study exactly followed the procedure of the Rottman study. The Ro
 Participants were then asked to provide basic demographic information and were debriefed.
 
 The harm and purity violations were carefully matched for overall severity during stimulus construction, thus reducing the potential for confounding factors (Gray & Keeney, 2015), and their equivalence was confirmed in a pilot study (see the Supplemental Material available online). Because atypicality is a feature of the purity domain (i.e., impurity is often a function of the perceived unnaturalness of actions; Giner-Sorolla, Bosson, Caswell, & Hettinger, 2012; Graham, 2015), actions were not matched on this dimension." 
-
-
-### Procedure	
-
-I precisely followed the procedure in Rottman's paper. Rottman's "Materials and Procedure" section is quoted above.
-
-I created a survey on Qualtrics, available here: 
-https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 
 ### Analysis Plan
@@ -80,7 +72,8 @@ I will strive to exactly replicate Rottman's experiment. My linear regression an
 You can comment this section out prior to final report with data collection.
 
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+
+Sample size, demographics, data exclusions based on rules spelled out in analysis plan
 
 #### Differences from pre-data collection methods plan
   Any differences from what was described as the original plan, or “none”.
@@ -91,20 +84,15 @@ You can comment this section out prior to final report with data collection.
 
 ### Data preparation
 
+I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
+
 My qualtrics survey is available here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 
-Data preparation following the analysis plan.
-
-
 ```{r include=T}
 
-# I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
-
 ####Load Relevant Libraries and Functions
-
-# The libraries I need are the useful, all-purpose libraries:
 
 library(foreign) # for reading spss formatted data
 library(tidyverse)
@@ -113,12 +101,10 @@ library(tidyverse)
 
 #Also, how do I make sure that my data is anonymized??? I didn't really understand the class instructions for Mturk anonymization
 
-
 filename <- "PilotAdata.csv"
 headers = read_csv(filename, col_names = FALSE, n_max = 1)
 df = read_csv(filename, skip = 3, col_names = FALSE)
 colnames(df)= headers
-
 
 #### Inspect data
 
@@ -128,28 +114,25 @@ colnames(df)
 
 #### Data exclusion / filtering
 
+I'll also have to filter out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
+
+For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
+
+So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds
+
+
 ```{r include=T}
 #### Data exclusion / filtering
 
-# For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
-# So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds
-# I'll also have to filter out the people who failed the attention checks.
-# Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral
-# wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
-
 data <- df %>% 
-    filter(DistributionChannel == "anonymous") %>% # remove all the surveys that were unanswered and were just a "preview," leaving only the surveys that were "anonymous" 
-  filter( (Att1_8 > 49) | (Att2_4 < 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
-
-# Is the above fix okay? Am I keeping all the data I intend to keep? --> I HAVE A PROBLEM HERE!!! It's also filtering out all the people who took Att2 but not Att1. How do I get it to keep the results when Att1_8 = NA?
-
-#Also, I could maybe just get rid of the first row. I think the second filter does the same thing.
+   filter( (Att1_8 > 49) | (Att2_4 < 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
 
 #Also, is there a way to keep track of how much data is excluded? I'm planning to go to office hours on Tuesday 12/3 and go through many of these questions.
 
-head(data)
-  
+## Rottman also filtered out all the IP addresses that took both the pilot and the study --> do I need to do the same??
+
 ```
+
 
 ### Tidy my data
 
@@ -173,8 +156,6 @@ colnames(d)
 
 # Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
 
-# I should probably get rid of a lot of columns I don't need... do I need to do this?  
-  
 ```
 
 ### Confirmatory analysis
@@ -183,44 +164,57 @@ The analyses as specified in the analysis plan.
 
 ##### First analysis, difference of means
 
+I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
+
 
 ```{r include=T}
 
 #First analysis, difference of means
 
-# I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
-
-# Do I also need to group by prompt?? so each question gets its own analysis?
-
 means <- d %>%
   group_by(Purity_Violation, High_Dosage) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
+
+sd <- d %>%
+  group_by(Purity_Violation, High_Dosage) %>%
+  summarize(meanWrongness = (sd(Rating, na.rm=T)))
+
+means
+sd
+
+```
+
+```{r include=T}
+
+# The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
 
 mean_Harm_LowDosage <- means[1,3]
 mean_Harm_HighDosage <- means[2,3]
 mean_Purity_LowDosage <- means[3,3]
 mean_Purity_HighDosage <- means[4,3]
 
-# The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-mean_Harm_HighDosage - mean_Harm_LowDosage
-mean_Purity_HighDosage - mean_Purity_LowDosage
+diff_means_harms <- mean_Harm_HighDosage - mean_Harm_LowDosage
+diff_means_purity <- mean_Purity_HighDosage - mean_Purity_LowDosage
+
+diff_means_harms
+diff_means_purity
 
 # Now I'll do the same analysis for standard deviations
-sd <- d %>%
-  group_by(Purity_Violation, High_Dosage) %>%
-  summarize(meanWrongness = (sd(Rating, na.rm=T)))
-
 sd_Harm_LowDosage <- sd[1,3]
 sd_Harm_HighDosage <- sd[2,3]
 sd_Purity_LowDosage <- sd[3,3]
 sd_Purity_HighDosage <- sd[4,3]
 
 # The difference in standard deviations between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-sd_Harm_HighDosage - sd_Harm_LowDosage
-sd_Purity_HighDosage - sd_Purity_LowDosage
+diff_sd_harms <- sd_Harm_HighDosage - sd_Harm_LowDosage
+diff_sd_purity <- sd_Purity_HighDosage - sd_Purity_LowDosage
 
+diff_sd_harms
+diff_sd_purity
 
-# Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Also, I couldn't get the standard deviation, is that an error in my code?
+# Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Or have I just gathered too little data?
+
+# Also, why are my standard deviations negative? That doesn't seem to make much sense....
 
 
 ```

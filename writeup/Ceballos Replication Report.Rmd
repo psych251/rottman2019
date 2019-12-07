@@ -156,6 +156,7 @@ d <- data %>%
 
 colnames(d)
 
+
 ```
 
 Now I only have five columns! Hurray! My data is nice and clean and long.
@@ -261,6 +262,8 @@ ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
   ggtitle("Violin Plot, Replication of Fig. 1") +
   labs(x = "Type of Violation", y = "Wrongness Rating") 
 
+## ** How do I add a stat_summary to the violin plot??***
+
 
 ```
 
@@ -273,7 +276,10 @@ For the linear regression, I used the same function Rottman used, the lmer. This
 library(lme4)
 # library(lmerTest)
 
-model <- lmer(Rating ~ Purity_Violation*High_Dosage + (1 | mTurkCode) + (1 | Prompt), d)
+model <- lmer(Rating ~ Purity_Violation*High_Dosage + 
+                (1 | mTurkCode) + 
+                (1 | Prompt), d)
+
 summary(model)
 
   
@@ -283,6 +289,37 @@ summary(model)
 ### Exploratory analyses
 
 Any follow-up analyses desired (not required).  
+
+```{r include=T}
+
+prompt <- d %>%
+  group_by(Prompt, Purity_Violation) %>%
+  summarize(meanWrongness = (mean(Rating, na.rm=T)))
+View(prompt)
+```
+
+Now how do I graph the above?
+
+```{r include=T}
+# View(prompt)
+
+# ggplot(prompt, aes(x= prompt$meanWrongness, color = prompt$High_Dosage)) + 
+  # geom_histogram(binwidth = 3) 
+  # ggtitle("Ages of Children in Study") +
+  # labs(x = "Age in Months", y = "Number of Children") 
+
+
+# ggplot(prompt, aes(x=prompt$Prompt, y=prompt$meanWrongness, color = prompt$High_Dosage)) + 
+  # geom_point(shape = ".") +
+  # geom_smooth() +
+  # facet_grid(prompt$Purity_Violation)
+  # ggtitle("Hand-Looking as a Function of Age and Condition") +
+  # labs(x = "Age in Months", y = "Amount of Time Hand-Looking")
+
+  
+```
+
+
 
 ## Discussion
 

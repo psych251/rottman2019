@@ -102,7 +102,7 @@ Import data, using the workaround Mike sent to the class in order to read Qualtr
 
 ```{r include=T}
 
-filename <- "PilotBdata.gitignore.csv"
+filename <- "PilotBdata.csv"
 headers = read_csv(filename, col_names = FALSE, n_max = 1)
 df = read_csv(filename, skip = 3, col_names = FALSE)
 colnames(df)= headers
@@ -295,7 +295,7 @@ Any follow-up analyses desired (not required).
 prompt <- d %>%
   group_by(Prompt, Purity_Violation) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
-View(prompt)
+
 ```
 
 Now how do I graph the above?

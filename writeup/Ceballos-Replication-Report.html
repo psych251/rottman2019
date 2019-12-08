@@ -12,7 +12,7 @@
 
 <meta name="author" content="Cristina Ceballos (cceballos@stanford.edu)" />
 
-<meta name="date" content="2019-11-30" />
+<meta name="date" content="2019-12-05" />
 
 <title>Replication of Study 1 from Rottman &amp; Young (2019, Psychological Science)</title>
 
@@ -1512,7 +1512,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Study 1 from Rottman &amp; Young (2019, Psychological Science)</h1>
 <h4 class="author">Cristina Ceballos (<a href="mailto:cceballos@stanford.edu" class="email">cceballos@stanford.edu</a>)</h4>
-<h4 class="date">November 30, 2019</h4>
+<h4 class="date">December 05, 2019</h4>
 
 </div>
 
@@ -1520,7 +1520,9 @@ div.tocify {
 <!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
+<blockquote>
 <p>The Rottman paper examines a question in moral psychology: how do people make moral judgments? Rottman thinks moral judgments are different across different domains. <em>Harm violations</em> (e.g. punching someone) are judged differently than <em>purity violations</em> (e.g. eating flesh from a dead person). Rottman proposes a “mere-trace hypothesis.” According to Rottman’s mere-trace hypothesis, “judgments of purity violations uniquely hinge on assessments of whether any amount of a transgresssion occurs and are only minimally affected by considerations of rate or quantity.” Rottman at 1152. While the quantity or frequency of wrongdoing matters in <em>harm</em> violations (e.g. punching 50 people is worse than punching 1 person), quantity and frequency matter less in <em>purity</em> violations (e.g. eating flesh from 1 dead person is about as bad, morally speaking, as eating flesh from 50 dead people). According to Rottman’s hypothesis, judgments of purity violations follow a “mere-trace” kind of reasoning, where even one small trace of a purity violation is enough to ruin the whole barrel.</p>
+</blockquote>
 <p>I chose Study 1 in Rottman’s paper because of my interests in moral psychology. Rottman’s question about moral judgments–is harm additive? are moral judgments different across different domains? how important are intentions?–have interesting implications for moral philosophy. In addition, Study 1 falls within the constraints of my (limited) technical skills and the class’s research budget. Study 1 involved 200 participants on Mechanical Turk. Each participant completed a 16-item survey which asked them to rate the moral wrongness of an action (e.g. “How bad is it, on a scale from 0 to 100, when a person starves a goat?”) Rottman’s original paper provides the total set of 32 questions used in the Mechanical Turk surveys. He also provides Supplemental Materials online that explain the equivalence between the harm violations and purity violations, which were matched for overall severity.</p>
 <p>With respect to my programming background, I have taken only one programming class, Stats 60. I believe this replication is feasible given my programming background and that it will push me to improve my skills.</p>
 <p>Below is the link to my repository and the original paper by Rottman, titled “Specks of Dirt and Tons of Pain: Dosage Distinguishes Impurity From Harm.” <a href="https://github.com/psych251/rottman2019" class="uri">https://github.com/psych251/rottman2019</a></p>
@@ -1538,17 +1540,12 @@ div.tocify {
 <p>I will follow Rottman’s original study and select a target sample size of 200 total participants. Participants will be recruited via Amazon’s Mechanical Turk. I will limit particpants to U.S.-based IP addresses and MTurk “Masters.”</p>
 <p>Participants who fail attention checks will be excluded, but will still be paid. Participants who completed the pilot study will also be excluded, since they have already completed the task, but they will still be paid.</p>
 </div>
-<div id="materials" class="section level3">
-<h3>Materials</h3>
+<div id="materials-procedure" class="section level3">
+<h3>Materials &amp; Procedure</h3>
 <p>My replication study exactly followed the procedure of the Rottman study. The Rottman study described “Materials and Procedure” in the same section, not in two separate sections, and the Rottman text is replicated below.</p>
 <p>“After providing consent to participate in the study, each participant was presented with 16 violations that varied by domain (harm vs. purity), dosage (low vs. high), and dosage type (magnitude vs. frequency). Participants saw two violations from each of the eight possible combinations of these variable levels (see Table 1). The presentation of these violations was counterbalanced across participants such that each participant saw either a low- or a high-dosage version of each violation and saw the opposite dosage from a corresponding violation in the other content domain. For example, participants who judged “A person throws a large rock at a farm animal” did not see “A person throws a small rock at a farm animal” but instead saw “A person eats a small amount of flesh from a dead person.” The two attention-check questions were also randomly presented within this sequence. After each moral violation was presented, participants were asked, “How morally wrong was this action?” and were prompted to respond on a slider scale from 0 (not at all) to 100 (extremely).</p>
 <p>Participants were then asked to provide basic demographic information and were debriefed.</p>
 <p>The harm and purity violations were carefully matched for overall severity during stimulus construction, thus reducing the potential for confounding factors (Gray &amp; Keeney, 2015), and their equivalence was confirmed in a pilot study (see the Supplemental Material available online). Because atypicality is a feature of the purity domain (i.e., impurity is often a function of the perceived unnaturalness of actions; Giner-Sorolla, Bosson, Caswell, &amp; Hettinger, 2012; Graham, 2015), actions were not matched on this dimension.&quot;</p>
-</div>
-<div id="procedure" class="section level3">
-<h3>Procedure</h3>
-<p>I precisely followed the procedure in Rottman’s paper. Rottman’s “Materials and Procedure” section is quoted above.</p>
-<p>I created a survey on Qualtrics, available here: <a href="https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr" class="uri">https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr</a></p>
 </div>
 <div id="analysis-plan" class="section level3">
 <h3>Analysis Plan</h3>
@@ -1578,28 +1575,23 @@ div.tocify {
 <h2>Results</h2>
 <div id="data-preparation" class="section level3">
 <h3>Data preparation</h3>
+<p>I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the “Randomizer” function in Qualtrics. To ensure that participants see the appropriate questions.</p>
 <p>My qualtrics survey is available here: <a href="https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr" class="uri">https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr</a></p>
-<p>Data preparation following the analysis plan.</p>
-<pre class="r"><code># I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the &quot;Randomizer&quot; function in Qualtrics. To ensure that participants see the appropriate questions.
-
-####Load Relevant Libraries and Functions
-
-# The libraries I need are the useful, all-purpose libraries:
+<pre class="r"><code>####Load Relevant Libraries and Functions
 
 library(foreign) # for reading spss formatted data
 library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages ---------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## -- Attaching packages ---------------------------- tidyverse 1.2.1 --</code></pre>
 <pre><code>## v ggplot2 3.2.1     v purrr   0.3.3
 ## v tibble  2.1.3     v dplyr   0.8.3
 ## v tidyr   1.0.0     v stringr 1.4.0
 ## v readr   1.3.1     v forcats 0.4.0</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>####Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R
 
 #Also, how do I make sure that my data is anonymized??? I didn&#39;t really understand the class instructions for Mturk anonymization
-
 
 filename &lt;- &quot;PilotAdata.csv&quot;
 headers = read_csv(filename, col_names = FALSE, n_max = 1)</code></pre>
@@ -1627,7 +1619,6 @@ headers = read_csv(filename, col_names = FALSE, n_max = 1)</code></pre>
 ## )
 ## See spec(...) for full column specifications.</code></pre>
 <pre class="r"><code>colnames(df)= headers
-
 
 #### Inspect data
 
@@ -1662,47 +1653,17 @@ colnames(df)</code></pre>
 ## [55] &quot;mTurkCode&quot;</code></pre>
 <div id="data-exclusion-filtering" class="section level4">
 <h4>Data exclusion / filtering</h4>
+<p>I’ll also have to filter out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate “a person destroys the entire planet” below 49 on the moral wrongness scale, or if you rate “a person gives money to a charitable organization” above 51 on moral wrongness.</p>
+<p>For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.</p>
+<p>So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds</p>
 <pre class="r"><code>#### Data exclusion / filtering
 
-# For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
-# So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds
-# I&#39;ll also have to filter out the people who failed the attention checks.
-# Per Rottman, you fail the attention check if you rate &quot;a person destroys the entire planet&quot; below 49 on the moral
-# wrongness scale, or if you rate &quot;a person gives money to a charitable organization&quot; above 51 on moral wrongness.
-
 data &lt;- df %&gt;% 
-    filter(DistributionChannel == &quot;anonymous&quot;) %&gt;% # remove all the surveys that were unanswered and were just a &quot;preview,&quot; leaving only the surveys that were &quot;anonymous&quot; 
-  filter( (Att1_8 &gt; 49) | (Att2_4 &lt; 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
-
-# Is the above fix okay? Am I keeping all the data I intend to keep? --&gt; I HAVE A PROBLEM HERE!!! It&#39;s also filtering out all the people who took Att2 but not Att1. How do I get it to keep the results when Att1_8 = NA?
-
-#Also, I could maybe just get rid of the first row. I think the second filter does the same thing.
+   filter( (Att1_8 &gt; 49) | (Att2_4 &lt; 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
 
 #Also, is there a way to keep track of how much data is excluded? I&#39;m planning to go to office hours on Tuesday 12/3 and go through many of these questions.
 
-head(data)</code></pre>
-<pre><code>## # A tibble: 6 x 55
-##   StartDate EndDate Status IPAddress Progress `Duration (in s~ Finished
-##   &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;
-## 1 10/25/20~ 10/25/~      0 171.66.1~      100              170        1
-## 2 10/25/20~ 10/25/~      0 171.66.1~      100              188        1
-## 3 10/27/20~ 10/27/~      0 128.12.2~      100               91        1
-## 4 10/27/20~ 10/27/~      0 128.12.2~      100               86        1
-## 5 10/27/20~ 10/27/~      0 128.12.2~      100               86        1
-## 6 10/27/20~ 10/27/~      0 128.12.2~      100              100        1
-## # ... with 48 more variables: RecordedDate &lt;chr&gt;, ResponseId &lt;chr&gt;,
-## #   RecipientLastName &lt;lgl&gt;, RecipientFirstName &lt;lgl&gt;,
-## #   RecipientEmail &lt;lgl&gt;, ExternalReference &lt;lgl&gt;, LocationLatitude &lt;dbl&gt;,
-## #   LocationLongitude &lt;dbl&gt;, DistributionChannel &lt;chr&gt;,
-## #   UserLanguage &lt;chr&gt;, A1_10 &lt;dbl&gt;, `A2&#39;_4` &lt;dbl&gt;, `A1&#39;_8` &lt;dbl&gt;,
-## #   A2_4 &lt;dbl&gt;, B1_8 &lt;dbl&gt;, `B2&#39;_4` &lt;dbl&gt;, `B1&#39;_8` &lt;dbl&gt;, B2_4 &lt;dbl&gt;,
-## #   C1_8 &lt;dbl&gt;, `C2&#39;_4` &lt;dbl&gt;, `C1&#39;_8` &lt;dbl&gt;, C2_4 &lt;dbl&gt;, D1_8 &lt;dbl&gt;,
-## #   `D2&#39;_4` &lt;dbl&gt;, `D1&#39;_8` &lt;dbl&gt;, D2_4 &lt;dbl&gt;, E1_8 &lt;dbl&gt;, `E2&#39;_4` &lt;dbl&gt;,
-## #   `E1&#39;_8` &lt;dbl&gt;, E2_4 &lt;dbl&gt;, F1_8 &lt;dbl&gt;, `F2&#39;_4` &lt;dbl&gt;, `F1&#39;_8` &lt;dbl&gt;,
-## #   F2_4 &lt;dbl&gt;, G1_8 &lt;dbl&gt;, `G2&#39;_4` &lt;dbl&gt;, `G1&#39;_8` &lt;dbl&gt;, G2_4 &lt;dbl&gt;,
-## #   H1_8 &lt;dbl&gt;, `H2&#39;_4` &lt;dbl&gt;, `H1&#39;_8` &lt;dbl&gt;, H2_4 &lt;dbl&gt;, Att1_8 &lt;dbl&gt;,
-## #   Att2_4 &lt;dbl&gt;, Gender &lt;dbl&gt;, Gender_4_TEXT &lt;lgl&gt;, Age &lt;dbl&gt;,
-## #   mTurkCode &lt;dbl&gt;</code></pre>
+## Rottman also filtered out all the IP addresses that took both the pilot and the study --&gt; do I need to do the same??</code></pre>
 </div>
 </div>
 <div id="tidy-my-data" class="section level3">
@@ -1713,66 +1674,118 @@ head(data)</code></pre>
 
 d &lt;- data %&gt;%
   pivot_longer(cols = A1_10:Att2_4, names_to = &quot;Prompt&quot;, values_to = &quot;Rating&quot;) %&gt;% # pivots into long form
-  select(c(&quot;Prompt&quot;, &quot;Rating&quot;)) %&gt;% # keeps only the columns I need
+  select(c(&quot;Prompt&quot;, &quot;Rating&quot;, &quot;mTurkCode&quot;)) %&gt;% # keeps only the columns I need
   mutate(Purity_Violation = grepl(&quot;2&quot;, x = Prompt)) %&gt;% # adds a column that says &quot;TRUE&quot; if the violation is a purity violation and &quot;FALSE&quot; if the violation is a harm violation 
-  mutate(High_Dosage = grepl(&quot;&#39;&quot;, x = Prompt)) # adds a column that says &quot;TRUE&quot; if the violation is the high-dosage version violation and &quot;FALSE&quot; if the violation is the low-dosage version violation 
+  mutate(High_Dosage = grepl(&quot;&#39;&quot;, x = Prompt)) # adds a column that says &quot;TRUE&quot; if the violation is the high-dosage version violation and &quot;FALSE&quot; if the violation is the low-dosage version violation
+
+# Now I rename my data a little bit to make it cleaner. Use the as.character function to rename the true/false columns.
 
 colnames(d)</code></pre>
-<pre><code>## [1] &quot;Prompt&quot;           &quot;Rating&quot;           &quot;Purity_Violation&quot;
-## [4] &quot;High_Dosage&quot;</code></pre>
+<pre><code>## [1] &quot;Prompt&quot;           &quot;Rating&quot;           &quot;mTurkCode&quot;       
+## [4] &quot;Purity_Violation&quot; &quot;High_Dosage&quot;</code></pre>
 <pre class="r"><code># Now I only have four columns! Hurray! My data is nice and clean and long.
 
 ## Do I need to clean this up and label by subject?? I lost a lot of information when I tidied my data
 
-# Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don&#39;t end up using the dosage TYPE at all in the analysis.
-
-# I should probably get rid of a lot of columns I don&#39;t need... do I need to do this?  </code></pre>
+# Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don&#39;t end up using the dosage TYPE at all in the analysis.</code></pre>
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
 <p>The analyses as specified in the analysis plan.</p>
 <div id="first-analysis-difference-of-means" class="section level5">
 <h5>First analysis, difference of means</h5>
+<p>I’m trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I’ll find the same thing.</p>
 <pre class="r"><code>#First analysis, difference of means
 
-# I&#39;m trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I&#39;ll find the same thing.
-
-# Do I also need to group by prompt?? so each question gets its own analysis?
 
 means &lt;- d %&gt;%
   group_by(Purity_Violation, High_Dosage) %&gt;%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
+
+
+#old_sd &lt;- d %&gt;%
+  # group_by(Purity_Violation, High_Dosage) %&gt;%
+  # summarize(meanWrongness = (sd(Rating, na.rm=T)))
+
+new_sd &lt;- d %&gt;%
+  filter(Purity_Violation == FALSE) %&gt;%
+  group_by(mTurkCode, Purity_Violation, High_Dosage) %&gt;%
+  summarize(Wrongness = (mean(Rating, na.rm=T)))
+
+wider_d &lt;- new_sd %&gt;%
+  pivot_wider(id_cols = mTurkCode, names_from = High_Dosage, values_from = Wrongness) %&gt;%
+  rename(HIGH = &quot;TRUE&quot;, LOW = &quot;FALSE&quot;) %&gt;%
+  mutate(Indv_Diff = HIGH - LOW)
+
+mean(wider_d$Indv_Diff)</code></pre>
+<pre><code>## [1] 1.353741</code></pre>
+<pre class="r"><code>sd(wider_d$Indv_Diff)</code></pre>
+<pre><code>## [1] 25.75726</code></pre>
+<pre class="r"><code>Harm_only &lt;- d  %&gt;%
+  filter(Purity_Violation == FALSE) %&gt;%
+  group_by(mTurkCode, High_Dosage)
+
+head(new_sd)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+## # Groups:   mTurkCode, Purity_Violation [3]
+##   mTurkCode Purity_Violation High_Dosage Wrongness
+##       &lt;dbl&gt; &lt;lgl&gt;            &lt;lgl&gt;           &lt;dbl&gt;
+## 1    735347 FALSE            FALSE            68.3
+## 2    735347 FALSE            TRUE             56.7
+## 3   2245678 FALSE            FALSE            66  
+## 4   2245678 FALSE            TRUE             41.7
+## 5   4880450 FALSE            FALSE            66  
+## 6   4880450 FALSE            TRUE             41</code></pre>
+<pre class="r"><code>#How do i get it to subtract the rows???
+
+
+means</code></pre>
+<pre><code>## # A tibble: 4 x 3
+## # Groups:   Purity_Violation [2]
+##   Purity_Violation High_Dosage meanWrongness
+##   &lt;lgl&gt;            &lt;lgl&gt;               &lt;dbl&gt;
+## 1 FALSE            FALSE                48.4
+## 2 FALSE            TRUE                 51.1
+## 3 TRUE             FALSE                68.2
+## 4 TRUE             TRUE                 76.8</code></pre>
+<pre class="r"><code>difference_PurityFALSE &lt;- d %&gt;%
+  group_by(mTurkCode) %&gt;%
+  summarize(
+    Wrongness = (mean(as.numeric(High_Dosage)*Rating*(1-as.numeric(Purity_Violation)) - (1 - as.numeric(High_Dosage))*Rating*(1-as.numeric(Purity_Violation)), na.rm=T)))</code></pre>
+<pre class="r"><code># The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
 
 mean_Harm_LowDosage &lt;- means[1,3]
 mean_Harm_HighDosage &lt;- means[2,3]
 mean_Purity_LowDosage &lt;- means[3,3]
 mean_Purity_HighDosage &lt;- means[4,3]
 
-# The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-mean_Harm_HighDosage - mean_Harm_LowDosage</code></pre>
+diff_means_harms &lt;- mean_Harm_HighDosage - mean_Harm_LowDosage
+diff_means_purity &lt;- mean_Purity_HighDosage - mean_Purity_LowDosage
+
+diff_means_harms</code></pre>
 <pre><code>##   meanWrongness
 ## 1       2.74569</code></pre>
-<pre class="r"><code>mean_Purity_HighDosage - mean_Purity_LowDosage</code></pre>
+<pre class="r"><code>diff_means_purity</code></pre>
 <pre><code>##   meanWrongness
 ## 1      8.681818</code></pre>
 <pre class="r"><code># Now I&#39;ll do the same analysis for standard deviations
-sd &lt;- d %&gt;%
-  group_by(Purity_Violation, High_Dosage) %&gt;%
-  summarize(meanWrongness = (sd(Rating, na.rm=T)))
-
-sd_Harm_LowDosage &lt;- sd[1,3]
-sd_Harm_HighDosage &lt;- sd[2,3]
-sd_Purity_LowDosage &lt;- sd[3,3]
-sd_Purity_HighDosage &lt;- sd[4,3]
+# sd_Harm_LowDosage &lt;- sd[1,3]
+# sd_Harm_HighDosage &lt;- sd[2,3]
+# sd_Purity_LowDosage &lt;- sd[3,3]
+# sd_Purity_HighDosage &lt;- sd[4,3]
 
 # The difference in standard deviations between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-sd_Harm_HighDosage - sd_Harm_LowDosage</code></pre>
-<pre><code>##   meanWrongness
-## 1     -9.192149</code></pre>
-<pre class="r"><code>sd_Purity_HighDosage - sd_Purity_LowDosage</code></pre>
-<pre><code>##   meanWrongness
-## 1     -2.383406</code></pre>
-<pre class="r"><code># Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Also, I couldn&#39;t get the standard deviation, is that an error in my code?</code></pre>
+
+
+# diff_sd_harms &lt;- sd_Harm_HighDosage - sd_Harm_LowDosage
+# diff_sd_purity &lt;- sd_Purity_HighDosage - sd_Purity_LowDosage
+
+# diff_sd_harms
+# diff_sd_purity
+
+# Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Or have I just gathered too little data?
+
+# Also, why are my standard deviations negative? That doesn&#39;t seem to make much sense....</code></pre>
 </div>
 <div id="second-analysis-the-violin-plot" class="section level4">
 <h4>Second analysis, the violin plot</h4>
@@ -1805,33 +1818,41 @@ library(lme4)</code></pre>
 <pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
 ## 
 ##     expand, pack, unpack</code></pre>
-<pre class="r"><code>lmer(Rating ~ Purity_Violation*High_Dosage + (Purity_Violation | High_Dosage), d)</code></pre>
-<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-## control$checkConv, : unable to evaluate scaled gradient</code></pre>
-<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-## control$checkConv, : Hessian is numerically singular: parameters are not
-## uniquely determined</code></pre>
+<pre class="r"><code># library(lmerTest)
+
+model &lt;- lmer(Rating ~ Purity_Violation*High_Dosage + (1 | mTurkCode) + (1 | Prompt), d)
+
+summary(model)</code></pre>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
-## Formula: Rating ~ Purity_Violation * High_Dosage + (Purity_Violation |  
-##     High_Dosage)
+## Formula: Rating ~ Purity_Violation * High_Dosage + (1 | mTurkCode) + (1 |  
+##     Prompt)
 ##    Data: d
-## REML criterion at convergence: 1125.028
+## 
+## REML criterion at convergence: 1049.1
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9260 -0.4682 -0.0040  0.4545  2.4899 
+## 
 ## Random effects:
-##  Groups      Name                 Std.Dev. Corr
-##  High_Dosage (Intercept)          31.67        
-##              Purity_ViolationTRUE 31.69    0.00
-##  Residual                         31.69        
-## Number of obs: 118, groups:  High_Dosage, 2
-## Fixed Effects:
-##                          (Intercept)  
-##                               48.379  
-##                 Purity_ViolationTRUE  
-##                               19.772  
-##                      High_DosageTRUE  
-##                                2.746  
-## Purity_ViolationTRUE:High_DosageTRUE  
-##                                5.936  
-## convergence code 0; 2 optimizer warnings; 0 lme4 warnings</code></pre>
+##  Groups    Name        Variance Std.Dev.
+##  Prompt    (Intercept) 785.05   28.019  
+##  mTurkCode (Intercept)  52.82    7.268  
+##  Residual              252.54   15.892  
+## Number of obs: 118, groups:  Prompt, 34; mTurkCode, 7
+## 
+## Fixed effects:
+##                                      Estimate Std. Error t value
+## (Intercept)                            46.105     10.218   4.512
+## Purity_ViolationTRUE                   19.376     13.917   1.392
+## High_DosageTRUE                         3.570     14.283   0.250
+## Purity_ViolationTRUE:High_DosageTRUE    8.419     20.340   0.414
+## 
+## Correlation of Fixed Effects:
+##             (Intr) Pr_VTRUE H_DTRU
+## Prty_VlTRUE -0.685                
+## Hgh_DsgTRUE -0.666  0.493         
+## P_VTRUE:H_D  0.473 -0.690   -0.708</code></pre>
 <pre class="r"><code># lmer was the linear mixed model that Rottman used in his analysis. But I have no idea what the code is doing, and there seems to be an error too</code></pre>
 </div>
 </div>

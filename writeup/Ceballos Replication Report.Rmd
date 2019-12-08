@@ -31,7 +31,7 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 ### Power Analysis
 
-[TBC after we discuss in class*]
+[TBC after we discuss in class***]
 
 Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
 
@@ -43,7 +43,7 @@ Participants who fail attention checks will be excluded, but will still be paid.
 
 ### Materials & Procedure
 
-My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the same section, not in two separate sections, and the Rottman text is replicated below.
+My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the one section, not in two separate sections, and the Rottman text is copied below.
 
 "After providing consent to participate in the study, each participant was presented with 16 violations that varied by domain (harm vs. purity), dosage (low vs. high), and dosage type (magnitude vs. frequency). Participants saw two violations from each of the eight possible combinations of these variable levels (see Table 1). The presentation of these violations was counterbalanced across participants such that each participant saw either a low- or a high-dosage version of each violation and saw the opposite dosage from a corresponding violation in the other content domain. For example, participants who judged “A person throws a large rock at a farm animal” did not see “A person throws a small rock at a farm animal” but instead saw “A person eats a small amount of flesh from a dead person.” The two attention-check questions were also randomly presented within this sequence. After each moral violation was presented, participants were asked, “How morally wrong was this action?” and were prompted to respond on a slider scale from 0 (not at all) to 100 (extremely). 
 
@@ -56,16 +56,16 @@ The harm and purity violations were carefully matched for overall severity durin
 
 My analysis will replicate the Rottman analysis. 
 
-First, I will analyze the difference in means between the high-dosage and low-dosage versions of the scenarios. I will create a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
+First, I will analyze the difference in means between the high-dosage and low-dosage versions of the scenarios. Second, I will create a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
 
-Second, I will create a linear regression model to analyze the data. I am not certain if I will follow Rottman's exact analysis for the linear regression. Rottman created a "linear mixed model,"  not a straighforward linear regression, and Rottman's model also seems to include some fancy footwork with respect to variables (for example, Rottman dropped  dosage type as a variable, and he also included random intercepts). I am not sure if I will exactly replicate Rottman's model--I would first want to know a bit more about his choices, to ensure that the model is not just searching for a signal amidst all the noise. I will have to ask the instructors, who know more about statistics than I do, about Rottman's choices with respect to the linear regression model.
+Third, I will create a linear mixed model to analyze the data. 
 
-Rottman's analysis was the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
+Rottman's analysis stated the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
 
 
 ### Differences from Original Study
 
-I will strive to exactly replicate Rottman's experiment. My linear regression analysis, however, may differ from Rottman's.
+I will strive to exactly replicate Rottman's experiment.
 
 ### Methods Addendum (Post Data Collection)
 
@@ -89,19 +89,20 @@ I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My s
 My qualtrics survey is available here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
+Load Relevant Libraries and Functions
 
 ```{r include=T}
-
-####Load Relevant Libraries and Functions
 
 library(foreign) # for reading spss formatted data
 library(tidyverse)
 
-####Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R
+```
 
-#Also, how do I make sure that my data is anonymized??? I didn't really understand the class instructions for Mturk anonymization
+Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R. In the Qualtrics exporter, make sure to select "Use numeric values" and then also select "Remove line breaks" before hitting "export."
 
-filename <- "PilotAdata.csv"
+```{r include=T}
+
+filename <- "PilotBdata.csv"
 headers = read_csv(filename, col_names = FALSE, n_max = 1)
 df = read_csv(filename, skip = 3, col_names = FALSE)
 colnames(df)= headers
@@ -114,49 +115,51 @@ colnames(df)
 
 #### Data exclusion / filtering
 
-I'll also have to filter out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness.
+I'll also have to filter out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness. Each participant saw both attention checks, and I will exclude participants who failed either attention check.
 
-For Pilot A, I have 6 actual survey results, and the rest are spam from when I was testing/building the survey.
-
-So I need to get rid of the ~25 entries that are spam. The spam were all short, less than 75 seconds
+I also have to filter out everyone who took the pilot A and pilot B. Qualtrics includes all the data in one file, so my data file includes ALL the survey results, but I want to exclude the survey results from Pilot A, Pilot B, and my own testing. I started my final testing on December 04, 2019 11:37 PM PST, so I can filter out all data gathered before that date.
 
 
 ```{r include=T}
 #### Data exclusion / filtering
 
 data <- df %>% 
-   filter( (Att1_8 > 49) | (Att2_4 < 51) )  ## Include only rows where the person passed the first attention check, OR where they passed the second attention check. 
+    filter(StartDate > "12/4/2019 11:37") # %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm
+    # filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks. 
 
-#Also, is there a way to keep track of how much data is excluded? I'm planning to go to office hours on Tuesday 12/3 and go through many of these questions.
+# To track how many people were excluded
+excluded_data <- df %>% 
+  filter(StartDate > "12/4/2019 11:37") %>% 
+  filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
 
-## Rottman also filtered out all the IP addresses that took both the pilot and the study --> do I need to do the same??
+nrow(excluded_data) # counts the number of rows that have been excluded
+
 
 ```
 
+This seems reasonable. * * of 200 participants failed the attention checks, so I excluded them.
 
-### Tidy my data
 
+### Tidy my data and make it longer
+
+Note: I will use the "mTurkCode", not the IP Address or the Response ID, to identify the subjects. That is because IP Address or Response ID is more easily de-identified, whereas mTurkCode preserves anonymity better. The mTurkCode is the randomly-generated payment code that Qualtrics generated for each survey participant.
 
 ```{r include=T}
-#### Tidy my data
-
-# I have a huge, super wide dataset. How do I make this tidier? What am I even trying to turn it into?
 
 d <- data %>%
   pivot_longer(cols = A1_10:Att2_4, names_to = "Prompt", values_to = "Rating") %>% # pivots into long form
-  select(c("Prompt", "Rating")) %>% # keeps only the columns I need
+  select(c("Prompt", "Rating", "mTurkCode")) %>% # keeps only the columns I need
   mutate(Purity_Violation = grepl("2", x = Prompt)) %>% # adds a column that says "TRUE" if the violation is a purity violation and "FALSE" if the violation is a harm violation 
-  mutate(High_Dosage = grepl("'", x = Prompt)) # adds a column that says "TRUE" if the violation is the high-dosage version violation and "FALSE" if the violation is the low-dosage version violation 
+  mutate(High_Dosage = grepl("'", x = Prompt)) %>% # adds a column that says "TRUE" if the violation is the high-dosage version violation and "FALSE" if the violation is the low-dosage version violation
+  filter(Prompt != "Att1_8") %>% # remove the wrongness ratings for the first attention check
+  filter(Prompt != "Att2_4") # remove the wrongess ratings for the second attention check
 
 colnames(d)
 
-# Now I only have four columns! Hurray! My data is nice and clean and long.
-
-## Do I need to clean this up and label by subject?? I lost a lot of information when I tidied my data
-
-# Do I need to add a dosage type (magnitude v frequence). ?? I think? although I think they don't end up using the dosage TYPE at all in the analysis.
-
 ```
+
+Now I only have five columns! Hurray! My data is nice and clean and long.
+
 
 ### Confirmatory analysis
 
@@ -164,29 +167,21 @@ The analyses as specified in the analysis plan.
 
 ##### First analysis, difference of means
 
-I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing.
+I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing. I will do the calculations for the standard deviation separately, in a different chunk below.
 
 
 ```{r include=T}
-
-#First analysis, difference of means
 
 means <- d %>%
   group_by(Purity_Violation, High_Dosage) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
 
-sd <- d %>%
-  group_by(Purity_Violation, High_Dosage) %>%
-  summarize(meanWrongness = (sd(Rating, na.rm=T)))
-
-means
-sd
-
+head(means)
 ```
 
 ```{r include=T}
 
-# The difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
+# Now I'll find the difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
 
 mean_Harm_LowDosage <- means[1,3]
 mean_Harm_HighDosage <- means[2,3]
@@ -194,70 +189,95 @@ mean_Purity_LowDosage <- means[3,3]
 mean_Purity_HighDosage <- means[4,3]
 
 diff_means_harms <- mean_Harm_HighDosage - mean_Harm_LowDosage
+
 diff_means_purity <- mean_Purity_HighDosage - mean_Purity_LowDosage
 
 diff_means_harms
 diff_means_purity
 
-# Now I'll do the same analysis for standard deviations
-sd_Harm_LowDosage <- sd[1,3]
-sd_Harm_HighDosage <- sd[2,3]
-sd_Purity_LowDosage <- sd[3,3]
-sd_Purity_HighDosage <- sd[4,3]
-
-# The difference in standard deviations between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-diff_sd_harms <- sd_Harm_HighDosage - sd_Harm_LowDosage
-diff_sd_purity <- sd_Purity_HighDosage - sd_Purity_LowDosage
-
-diff_sd_harms
-diff_sd_purity
-
-# Hmmmm... I seem to be getting the OPPOSITE results as the authors. Is this an error in my code? Or have I just gathered too little data?
-
-# Also, why are my standard deviations negative? That doesn't seem to make much sense....
-
 
 ```
 
+My results here line up with Rottman's. In fact, the effect is even MORE pronounced.
+
+##### First analysis continued, standard deviation
+
+In this analysis, I am trying to find the SD of the differences. So I will take the mean for each subject in each condition, then take the difference. This will give me a difference score for each subject, and then I will compute the SD of that.
+
+```{r include=T}
+
+# First I'll do the analysis for the harm violations only.
+
+sd_data <- d %>%
+  filter(Purity_Violation == FALSE) %>%
+  group_by(mTurkCode, Purity_Violation, High_Dosage) %>%
+  summarize(Wrongness = (mean(Rating, na.rm=T)))
+
+wider_d <- sd_data %>%
+  pivot_wider(id_cols = mTurkCode, names_from = High_Dosage, values_from = Wrongness) %>%
+  rename(HIGH = "TRUE", LOW = "FALSE") %>%
+  mutate(Indv_Diff = HIGH - LOW)
+
+mean(wider_d$Indv_Diff)
+sd(wider_d$Indv_Diff)
+
+```
+
+```{r include=T}
+
+# Next, I'll do the analysis for the purity violations only.
+
+sd_data_Purity <- d %>%
+  filter(Purity_Violation == TRUE) %>%
+  group_by(mTurkCode, Purity_Violation, High_Dosage) %>%
+  summarize(Wrongness = (mean(Rating, na.rm=T)))
+
+wider_d_Purity <- sd_data_Purity %>%
+  pivot_wider(id_cols = mTurkCode, names_from = High_Dosage, values_from = Wrongness) %>%
+  rename(HIGH = "TRUE", LOW = "FALSE") %>%
+  mutate(Indv_Diff = HIGH - LOW)
+
+mean(wider_d_Purity$Indv_Diff)
+sd(wider_d_Purity$Indv_Diff)
+
+```
+
+### Should my "mean" numbers be the same as above? Because they're not. Is something funky with my code, or is this okay?
+
+
 #### Second analysis, the violin plot
+
+To create the violin plot, I used the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
 
 
 ```{r include=T}
 
-#Second analysis, the violin plot
-
-## To create the violin plot, I will use the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
-
-# Library
+# Load Library
 library(ggplot2)
 
 # Most basic violin chart
 ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
-  geom_violin()
+  geom_violin() + 
+  ggtitle("Violin Plot, Replication of Fig. 1") +
+  labs(x = "Type of Violation", y = "Wrongness Rating") 
 
-# Is this the right way to make four plots? Also, why does it look so weird?
 
 ```
 
 #### Third analysis, the linear regression
 
+For the linear regression, I used the same function Rottman used, the lmer. This linear mixed allowed me to account for the fact that each participant provided 16 datapoints, rather than one participant per datapoint. This model also allowed me to account for the differences between the prompts.
+
 ```{r include=T}
 
-# Third analysis, the linear regression
-
-# For the linear regression, I will use the built-in function from R, lm.
-# To do the statistical tricks described by Rottman (dropping a variable, adding random intercepts), 
-# I will have to talk to the TAs and figure out if those tricks are warranted on the data, and then how to do them.
-
 library(lme4)
+# library(lmerTest)
 
-lmer(Rating ~ Purity_Violation*High_Dosage + (Purity_Violation | High_Dosage), d)
-
-# lmer was the linear mixed model that Rottman used in his analysis. But I have no idea what the code is doing, and there seems to be an error too
+model <- lmer(Rating ~ Purity_Violation*High_Dosage + (1 | mTurkCode) + (1 | Prompt), d)
+summary(model)
 
   
 ```
-
 
 
 ### Exploratory analyses

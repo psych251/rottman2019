@@ -16,9 +16,9 @@ output:
 
 The Rottman paper examines a question in moral psychology: how do people make moral judgments? Rottman thinks moral judgments are different across different domains. *Harm violations* (e.g. punching someone) are judged differently than *purity violations* (e.g. eating flesh from a dead person). Rottman proposes a "mere-trace hypothesis." According to Rottman's mere-trace hypothesis, "judgments of purity violations uniquely hinge on assessments of whether any amount of a transgresssion occurs and are only minimally affected by considerations of rate or quantity." Rottman at 1152. While the quantity or frequency of wrongdoing matters in *harm* violations (e.g. punching 50 people is worse than punching 1 person), quantity and frequency matter less in *purity* violations (e.g. eating flesh from 1 dead person is about as bad, morally speaking, as eating flesh from 50 dead people). According to Rottman's hypothesis, judgments of purity violations follow a "mere-trace" kind of reasoning, where even one small trace of a purity violation is enough to ruin the whole barrel. 
 
-I chose Study 1 in Rottman's paper because of my interests in moral psychology. Rottman's question about moral judgments--is harm additive? are moral judgments different across different domains? how important are intentions?--have interesting implications for moral philosophy. In addition, Study 1 falls within the constraints of my (limited) technical skills and the class's research budget. Study 1 involved 200 participants on Mechanical Turk. Each participant completed a 16-item survey which asked them to rate the moral wrongness of an action (e.g. "How bad is it, on a scale from 0 to 100, when a person starves a goat?") Rottman's original paper provides the total set of 32 questions used in the Mechanical Turk surveys. He also provides Supplemental Materials online that explain the equivalence between the harm violations and purity violations, which were matched for overall severity. 
+I chose Study 1 in Rottman's paper because of my interests in moral psychology. Rottman's question about moral judgments--is harm additive? are moral judgments different across different domains? how important are intentions?--have interesting implications for moral philosophy. In addition, Study 1 fell within the constraints of my (limited) technical skills and the class's research budget. Study 1 involved 200 participants on Mechanical Turk. Each participant completed a 16-item survey which asked them to rate the moral wrongness of an action (e.g. "How bad is it, on a scale from 0 to 100, when a person starves a goat?") Rottman's original paper provides the set of 32 questions used in the Mechanical Turk surveys.
 
-With respect to my programming background, I have taken only one programming class, Stats 60. I believe this replication is feasible given my programming background and that it will push me to improve my skills.
+## Links
 
 Below is the link to my repository and the original paper by Rottman, titled "Specks of Dirt and Tons of Pain: Dosage Distinguishes Impurity From Harm."
 https://github.com/psych251/rottman2019
@@ -37,13 +37,11 @@ Original effect size, power analysis for samples to achieve 80%, 90%, 95% power 
 
 ### Planned Sample
 
-I will follow Rottman's original study and select a target sample size of 200 total participants. Participants will be recruited via Amazon's Mechanical Turk. I will limit particpants to U.S.-based IP addresses and MTurk "Masters."
-
-Participants who fail attention checks will be excluded, but will still be paid. Participants who completed the pilot study will also be excluded, since they have already completed the task, but they will still be paid.
+I followed Rottman's original study and selectd a target sample size of 200 total participants. Participants were recruited via Amazon's Mechanical Turk. Participation was limited to U.S.-based IP addresses and MTurk "Masters."
 
 ### Materials & Procedure
 
-My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the one section, not in two separate sections, and the Rottman text is copied below.
+My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the text below.
 
 "After providing consent to participate in the study, each participant was presented with 16 violations that varied by domain (harm vs. purity), dosage (low vs. high), and dosage type (magnitude vs. frequency). Participants saw two violations from each of the eight possible combinations of these variable levels (see Table 1). The presentation of these violations was counterbalanced across participants such that each participant saw either a low- or a high-dosage version of each violation and saw the opposite dosage from a corresponding violation in the other content domain. For example, participants who judged “A person throws a large rock at a farm animal” did not see “A person throws a small rock at a farm animal” but instead saw “A person eats a small amount of flesh from a dead person.” The two attention-check questions were also randomly presented within this sequence. After each moral violation was presented, participants were asked, “How morally wrong was this action?” and were prompted to respond on a slider scale from 0 (not at all) to 100 (extremely). 
 
@@ -54,18 +52,18 @@ The harm and purity violations were carefully matched for overall severity durin
 
 ### Analysis Plan
 
-My analysis will replicate the Rottman analysis. 
+My analysis mimicked the Rottman analysis. 
 
-First, I will analyze the difference in means between the high-dosage and low-dosage versions of the scenarios. Second, I will create a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
+First, I analyzed the difference in means between the high-dosage and low-dosage versions of the scenarios. Second, I created a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
 
-Third, I will create a linear mixed model to analyze the data. 
+Third, I created a linear mixed model to analyze the data. 
 
 Rottman's analysis stated the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
 
 
 ### Differences from Original Study
 
-I will strive to exactly replicate Rottman's experiment.
+My study had a slightly different number of participants from Rottman's study. Rottman had a target of 200 participants, but his final sample had only 177 participants since many were excluded in attention checks. My study had a target of 200 participants, and I anticipated that some would also be excluded via attention checks.
 
 ### Methods Addendum (Post Data Collection)
 
@@ -84,10 +82,7 @@ Sample size, demographics, data exclusions based on rules spelled out in analysi
 
 ### Data preparation
 
-I created a survey on Qualtrics, and linked that survey to Mechanical Turk. My survey has 16 questions, and each question has two dosages, so it is actually 32 questions total. All questions are provided in the Rottman 2019 paper. Each participant is presented with 16 moral violations, that vary by domain (harm vs. purity violation) and by . dosage (low vs. high or magnitude vs. frequency). I will use the "Randomizer" function in Qualtrics. To ensure that participants see the appropriate questions.
-
-My qualtrics survey is available here:
-https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
+I created a survey on Qualtrics and linked that survey to Mechanical Turk. My survey had 16 questions, and each question has two dosages, so it is actually 32 questions total. In addition, my survey had two attention checks which were identical to Rottman's attention checks. All questions were provided in the Rottman 2019 paper. Each participant was presented with 16 moral violations that varied by domain (harm vs. purity violation) and by dosage (low dosage vs. high dosage). The 16 questions and 2 attention checks were presented randomly. At the end of the survey, I collected demographic information from participants.
 
 Load Relevant Libraries and Functions
 
@@ -99,6 +94,8 @@ library(tidyverse)
 ```
 
 Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R. In the Qualtrics exporter, make sure to select "Use numeric values" and then also select "Remove line breaks" before hitting "export."
+
+To further ensure mTurker anonymity, I manually deleted the columns "IPAddress" and "ResponseID" from my data.
 
 ```{r include=T}
 
@@ -115,29 +112,29 @@ colnames(df)
 
 #### Data exclusion / filtering
 
-I'll also have to filter out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on moral wrongness. Each participant saw both attention checks, and I will exclude participants who failed either attention check.
+I filtered out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on the moral wrongness scale. Each participant saw both attention checks, and I excluded participants who failed either attention check.
 
-I also have to filter out everyone who took the pilot A and pilot B. Qualtrics includes all the data in one file, so my data file includes ALL the survey results, but I want to exclude the survey results from Pilot A, Pilot B, and my own testing. I started my final testing on December 04, 2019 11:37 PM PST, so I can filter out all data gathered before that date.
+I also filtered out everyone who took the pilots. Qualtrics included all the data in one file, so my data file includes ALL the survey results, but I want to exclude the survey results from the pilots. Therefore, I created filters for the StartDate and EndDate.
 
 
 ```{r include=T}
 #### Data exclusion / filtering
 
 data <- df %>% 
-    filter(StartDate > "12/4/2019 11:37") # %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm
-    # filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks. 
+    filter(StartDate > "12/4/2019 23:37") %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm
+    filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks. 
 
 # To track how many people were excluded
 excluded_data <- df %>% 
-  filter(StartDate > "12/4/2019 11:37") %>% 
-  filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
+    filter(EndDate < "12/4/2019 23:37") %>%
+    filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
 
 nrow(excluded_data) # counts the number of rows that have been excluded
-
+nrow(data) # counts number of participants that were not excluded
 
 ```
 
-This seems reasonable. * * of 200 participants failed the attention checks, so I excluded them.
+This seems reasonable. Of my 200 participants, I kept * and excluded *.
 
 
 ### Tidy my data and make it longer
@@ -226,6 +223,25 @@ sd(wider_d$Indv_Diff)
 
 ```{r include=T}
 
+# Mike's alternative code.
+
+# get difference scores for each participant
+ms <- d %>%
+group_by(mTurkCode, Purity_Violation) %>%
+summarise(diff = Wrongness[High_Dosage] - Wrongness[!High_Dosage])
+
+# get mean and sd of those differences scores
+ms %>%
+group_by(Purity_Violation) %>%
+summarise(mean_diff = mean(diff), 
+sd_diff = sd(diff))
+
+
+```
+
+
+```{r include=T}
+
 # Next, I'll do the analysis for the purity violations only.
 
 sd_data_Purity <- d %>%
@@ -282,6 +298,11 @@ model <- lmer(Rating ~ Purity_Violation*High_Dosage +
 
 summary(model)
 
+
+## Run the model without the interaction terms! Rottman also did this
+# S1.Wrong.NoInteractionTerm <- lmer(Wrong ~ Domain + Dose + (1 | ID) + (1 | Item), 
+                            #               data = Dosage.Tidy.S1)
+
   
 ```
 
@@ -295,6 +316,8 @@ Any follow-up analyses desired (not required).
 prompt <- d %>%
   group_by(Prompt, Purity_Violation) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
+
+prompt
 
 ```
 

@@ -35,6 +35,8 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
 
+For the power analysis, I used G*Power and the original paper to calculate the following:
+
 ### Planned Sample
 
 I followed Rottman's original study and selectd a target sample size of 200 total participants. Participants were recruited via Amazon's Mechanical Turk. Participation was limited to U.S.-based IP addresses and MTurk "Masters."

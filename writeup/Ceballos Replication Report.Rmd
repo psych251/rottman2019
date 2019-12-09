@@ -225,18 +225,20 @@ sd(wider_d$Indv_Diff)
 
 ```{r include=T}
 
-# Mike's alternative code.
+# Mike's alternative code for the SD and mean analysis:
 
-# get difference scores for each participant
-ms <- d %>%
-group_by(mTurkCode, Purity_Violation) %>%
-summarise(diff = Wrongness[High_Dosage] - Wrongness[!High_Dosage])
+# I'm not sure if I'm doing the SD analysis correctly, so I'll go to Mike's office hours and work through his suggestion. Right now the code is not working. 
+
+# get difference scores for each participant. 
+# ms <- d %>%
+# group_by(mTurkCode, Purity_Violation) %>%
+# summarise(diff = Wrongness[High_Dosage] - Wrongness[!High_Dosage]) # this code is not working so I'll comment out
 
 # get mean and sd of those differences scores
-ms %>%
-group_by(Purity_Violation) %>%
-summarise(mean_diff = mean(diff), 
-sd_diff = sd(diff))
+# ms %>%
+# group_by(Purity_Violation) %>%
+# summarise(mean_diff = mean(diff), 
+# sd_diff = sd(diff))
 
 
 ```

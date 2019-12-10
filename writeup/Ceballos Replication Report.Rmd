@@ -101,7 +101,7 @@ To further ensure mTurker anonymity, I manually deleted the columns "IPAddress" 
 
 ```{r include=T}
 
-filename <- "PilotBdata.csv"
+filename <- "FINALdata.csv"
 headers = read_csv(filename, col_names = FALSE, n_max = 1)
 df = read_csv(filename, skip = 3, col_names = FALSE)
 colnames(df)= headers
@@ -123,12 +123,13 @@ I also filtered out everyone who took the pilots. Qualtrics included all the dat
 #### Data exclusion / filtering
 
 data <- df %>% 
-    filter(StartDate > "12/4/2019 23:37") %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm
-    filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks. 
+    filter(StartDate > "12/4/2019 23:37") %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm.
+    filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks.
+
 
 # To track how many people were excluded
 excluded_data <- df %>% 
-    filter(EndDate < "12/4/2019 23:37") %>%
+    filter(StartDate > "12/4/2019 23:37") %>%
     filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
 
 nrow(excluded_data) # counts the number of rows that have been excluded
@@ -229,16 +230,20 @@ sd(wider_d$Indv_Diff)
 
 # I'm not sure if I'm doing the SD analysis correctly, so I'll go to Mike's office hours and work through his suggestion. Right now the code is not working. 
 
+# get condition means for each participant
+mss <- d %>%
+  group_by(mTurkCode, Purity_Violation, High_Dosage) %>%
+  summarise(Rating = mean(Rating, na.rm=TRUE)) 
+
 # get difference scores for each participant. 
-# ms <- d %>%
-# group_by(mTurkCode, Purity_Violation) %>%
-# summarise(diff = Wrongness[High_Dosage] - Wrongness[!High_Dosage]) # this code is not working so I'll comment out
+diffs <- mss %>%
+  summarise(diff = Rating[High_Dosage] - Rating[!High_Dosage]) # this code is not working so I'll comment out
 
 # get mean and sd of those differences scores
-# ms %>%
-# group_by(Purity_Violation) %>%
-# summarise(mean_diff = mean(diff), 
-# sd_diff = sd(diff))
+diffs %>%
+  group_by(Purity_Violation) %>%
+  summarise(mean_diff = mean(diff),
+            sd_diff = sd(diff))
 
 
 ```
@@ -277,8 +282,10 @@ To create the violin plot, I used the instructions I found here http://www.sthda
 library(ggplot2)
 
 # Most basic violin chart
-ggplot(d, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
-  geom_violin() + 
+ggplot(mss, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
+  geom_violin() +
+  stat_summary(fun.data = "mean_cl_boot", 
+               aes(group = High_Dosage), position=position_dodge(width = 1)) +
   ggtitle("Violin Plot, Replication of Fig. 1") +
   labs(x = "Type of Violation", y = "Wrongness Rating") 
 
@@ -302,10 +309,16 @@ model <- lmer(Rating ~ Purity_Violation*High_Dosage +
 
 summary(model)
 
+```
 
+Rottman also ran his model without the interaction terms, to simplify, so I will do the same
+```{r include=T}
 ## Run the model without the interaction terms! Rottman also did this
-# S1.Wrong.NoInteractionTerm <- lmer(Wrong ~ Domain + Dose + (1 | ID) + (1 | Item), 
-                            #               data = Dosage.Tidy.S1)
+model2 <- lmer(Rating ~ Purity_Violation + High_Dosage + 
+                (1 | mTurkCode) + 
+                (1 | Prompt), d)
+
+summary(model2)
 
   
 ```
@@ -321,7 +334,7 @@ prompt <- d %>%
   group_by(Prompt, Purity_Violation) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
 
-prompt
+View(prompt)
 
 ```
 

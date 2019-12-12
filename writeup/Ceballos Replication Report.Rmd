@@ -29,6 +29,8 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 The link to my preregistration on the OSF is here:
 https://osf.io/n9q2w/?view_only=
 
+I used .gitignore to make sure that the Pilot B data and the Final Data did not go up on Github, since it had potentially identifying details. I had already accidentally pushed it up onto Github, but I walked through a Git tutorial with a friend and he helped me remove Pilot B file from Github permanently.
+
 
 ## Methods
 

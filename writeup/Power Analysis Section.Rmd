@@ -178,6 +178,7 @@ Dosage.Tidy.S2 <- filter(Dosage.Tidy, Study == "Study 2")
 Dosage.Tidy.S3 <- filter(Dosage.Tidy, Study == "Study 3")
 
 
+
 ```
 
 ### My t-test and Power Analysis
@@ -186,6 +187,11 @@ Now I finally have Rottman's cleaned, tidied data for Study 1. He has already ex
 
 
 ```{r include=T}
+
+
+write.csv(Dosage.Tidy.S1, "RottmanS1Data.csv")
+
+write.csv(Your DataFrame,"Path where you'd like to export the DataFrame\\File Name.csv", row.names = FALSE)
 
 # Use a filter to view ONLY the harm-related questions and exclude the purity-related questions 
 Dosage.Tidy.S1_Harm <- Dosage.Tidy.S1  %>%

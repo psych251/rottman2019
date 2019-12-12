@@ -26,6 +26,9 @@ https://github.com/psych251/rottman2019
 The link to my Qualtrics survey is here:
 https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
+The link to my preregistration on the OSF is here:
+https://osf.io/n9q2w/?view_only=
+
 
 ## Methods
 
@@ -36,9 +39,49 @@ Rottman's original sample size was 177. His power analysis in the original paper
 Mike advised to take Rottman's data, and look at the harm violations only (ignoring purity violations). I should compare the low-dosage harm violations and the high-dosage harm violations, and do a t-test. The t-test would give me a t-value which I could convert into an effect size, and then I could use GPower software to calculate the sample size needed for a replication.
 
 
+### My t-test and Power Analysis
+
+I took Rottman's tidied, filtered, and cleaned data for Study 1. I created a CSV file called RottmanS1Data, which included only the data from Study 1. I created a group x, which has the high-dosage harm violations, and a group y, which has the low-dosage harm violations. Next, I will run my t-test on x and y.
+
+
+```{r include=T}
+
+
+library(foreign) # for reading spss formatted data
+library(tidyverse)
+library(dplyr)
+
+Dosage.Tidy.S1 <- read.csv("RottmanS1Data.csv", header = TRUE)
+
+# Use a filter to view ONLY the harm-related questions and exclude the purity-related questions 
+Dosage.Tidy.S1_Harm <- Dosage.Tidy.S1  %>%
+    filter(Domain == "Harm") # keep only the Harm prompts and exclude Purity
+
+# Assign all the high-dosage harm violations to x
+x <- Dosage.Tidy.S1_Harm %>%
+     filter(Dose == "High")
+  
+# Assign all the low-dosage harm violations to y
+y <- Dosage.Tidy.S1_Harm %>%
+     filter(Dose == "Low")
+
+# Run a t-test on x and y
+  t.test(x$Wrong, y$Wrong)
+
+```
+
+In the above, I ran a t-test on Rottman's own data, to compare the low-dosage harm violations with the high-dosage harm violations. I got a t-value of 9.4355 and df = 1371.4.
+
+Using these values, I found the effect size. I used an online calculator available at https://www.uccs.edu/lbecker/ . Into the calculator, I input t-value = 9.4355 and df = 1371.4 and got a Cohen's d = 0.5095805486569233.
+
+Then I used the GPower software to calculate the power. I input "effect size = 0.5095805486569233" and ran the GPower software. According to GPower, I need a total sample size of 33 to get 95 percent power on a replication.
+
+
+
 ### Planned Sample
 
 I followed Rottman's original study and selectd a target sample size of 200 total participants. Participants were recruited via Amazon's Mechanical Turk. Participation was limited to U.S.-based IP addresses and MTurk "Masters."
+
 
 ### Materials & Procedure
 
@@ -51,24 +94,25 @@ Participants were then asked to provide basic demographic information and were d
 The harm and purity violations were carefully matched for overall severity during stimulus construction, thus reducing the potential for confounding factors (Gray & Keeney, 2015), and their equivalence was confirmed in a pilot study (see the Supplemental Material available online). Because atypicality is a feature of the purity domain (i.e., impurity is often a function of the perceived unnaturalness of actions; Giner-Sorolla, Bosson, Caswell, & Hettinger, 2012; Graham, 2015), actions were not matched on this dimension." 
 
 
-### Analysis Plan
+### Analysis Plan & Key Statistic
 
 My analysis mimicked the Rottman analysis. 
 
 First, I analyzed the difference in means between the high-dosage and low-dosage versions of the scenarios. Second, I created a violin plot, just as Rottman did for Fig. 1. As Rottman wrote in his study, "The difference in wrongness ratings between the high-dosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060); the average difference between these differences was 10.419 (SD = 25.767), as can be seen in Figure 1."
 
-Third, I created a linear mixed model to analyze the data. 
+Third, I created a linear mixed model to analyze the data. Rottman's analysis stated the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood.... Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
 
-Rottman's analysis stated the following: "To more carefully examine the interaction between domain and dosage, we analyzed the data with a linear mixed model fitted using restricted maximum likelihood. The model was specified to predict moral judgments from the fixed effects of domain (harm vs. purity) and dosage (low vs. high), the two-way interaction between these variables, and the random intercepts of scenario and participant. The model initially included dosage type as an additional factor, along with all interactions involving this factor. This analysis yielded a significant three-way interaction, b = 9.491, SE = 3.630, p = .009, driven by a decrease in wrongness for low-magnitude harms, which rendered the estimates of main effects and two-way interactions uninterpretable. Because we had no predictions about the effects of dosage type, this variable was dropped from the model. Including random intercepts for scenario and participant  provided the ability to generalize these findings to a broader range of stimuli and individuals ( Judd, Westfall, & Kenny, 2012), precluding arguments that the results are an artifact of the particular scenarios that were presented or the particular sample that was tested. The random effect of participant additionally accounted for the nonindependence of multiple judgments being made by each participant."
-
+My key statistic was the *interaction between domain and dosage in the linear mixed model.* When I emailed Rottman and Liane, they agreed that this was the key statistic for their analysis. The Rottman paper stated, "Crucially, there was a significant interaction between domain and dosage, b = 9.599, SE = 1.821, p < .001, reflecting participants’ greater sensitivity to dosage for harm-based transgressions. Examining simple effects, we found that there was an effect of dosage both for harm transgressions, b = 13.999, SE = 1.288, p < .001, and for purity transgressions, b = 4.400, SE = 1.288, p = .001. Notably, however, the effect size of dosage for purity transgressions (d = 0.139) was less than one third of the effect size of dosage for harm transgressions (d = 0.441).
 
 ### Differences from Original Study
 
 My study had a slightly different number of participants from Rottman's study. Rottman had a target of 200 participants, but his final sample had only 177 participants since many were excluded in attention checks. My study had a target of 200 participants, and I anticipated that some would also be excluded via attention checks.
 
-### Methods Addendum (Post Data Collection)
+### Exclusions & Methods Addendum (Post Data Collection)
 
 Unfortunately, I was unable to collect the full 200 participant sample that I wanted. MTurk started running extremely slowly, even though I started my final data collection 9 days before the deadline. As a result, I only collected data from * * participants, not the full * * as I had planned. However, this should not cause any problems in the analysis because my sample size is still very large and well above the number I needed.
+
+In addition, I excluded * participants because they failed the attention checks. I used the same attention checks as Rottman. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on the moral wrongness scale. Each participant saw both attention checks, and I excluded participants who failed either attention check.
 
 #### Differences from pre-data collection methods plan
   None.
@@ -79,7 +123,7 @@ Unfortunately, I was unable to collect the full 200 participant sample that I wa
 
 ### Data preparation
 
-I created a survey on Qualtrics and linked that survey to Mechanical Turk. My survey had 16 questions, and each question has two dosages, so it is actually 32 questions total. In addition, my survey had two attention checks which were identical to Rottman's attention checks. All questions were provided in the Rottman 2019 paper. Each participant was presented with 16 moral violations that varied by domain (harm vs. purity violation) and by dosage (low dosage vs. high dosage). The 16 questions and 2 attention checks were presented randomly. At the end of the survey, I collected demographic information from participants.
+I created a survey on Qualtrics and linked that survey to Mechanical Turk. My survey had 16 questions, and each question has two dosages, so it is actually 32 questions total, plus the two attention checks, plus some demographic information. All the moral violation prompts were provided in the Rottman 2019 paper. Each participant was presented with 16 moral violations that varied by domain (harm vs. purity violation) and by dosage (low dosage vs. high dosage). The 16 questions and 2 attention checks were presented randomly. At the end of the survey, I collected demographic information from participants.
 
 ## Load Relevant Libraries 
 
@@ -142,7 +186,7 @@ This seems reasonable. Of my 200 participants, I kept * and excluded * who faile
 
 ### Tidy my data and make it longer
 
-Note: I will use the "mTurkCode", not the IP Address or the Response ID, to identify the subjects. That is because IP Address or Response ID is more easily de-identified, whereas mTurkCode preserves anonymity better. The mTurkCode is the randomly-generated payment code that Qualtrics generated for each survey participant.
+Note: I will use the "mTurkCode", not the IP Address or the Response ID, to identify the subjects. I deleted the IP Address and the Response ID from my dataset, just to be safe, and to better preserve mTurker anonymit. IP Address or Response ID is more easily de-identified, whereas mTurkCode preserves anonymity better. The mTurkCode is the randomly-generated payment code that Qualtrics generated for each survey participant.
 
 ```{r include=T}
 
@@ -167,6 +211,21 @@ The analyses as specified in the analysis plan.
 
 I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing. Then I will calculate the mean and the standard deviation of the difference in wrongness ratings, for both the purity and the harm.
 
+First, I found the mean wrongness rating for each type of moral violation: harm low-dosage in Row 1, harm high-dosage in Row 2, purity low-dosage in Row 3, and purity high-dosage in Row 4.
+
+```{r include=T}
+
+means <- d %>%
+  group_by(Purity_Violation, High_Dosage) %>%
+  summarize(meanWrongness = (mean(Rating, na.rm=T)))
+
+head(means)
+```
+
+The above chart illustrates the mean ratings of each kind of violation. Interestingly, we can see that most of the violations are rated fairly similarly, except the high-dosage harm violations, which have a big jump. This tends to support Rottman's hypothesis that we rate moral violations differently across different domains.
+
+To calculate the difference of means and the standard deviation for harm and purity violations, I did the following:
+
 ```{r include=T}
 
 # get condition means for each participant
@@ -186,12 +245,13 @@ diffs %>%
 
 ```
 
-So I found the same effect as Rottman! 
+So I found the same effect as Rottman! The difference in wrongness rating between high- and low-dosage violations was much higher for harm violations *(11.5)* than for purity violations *(4.5)*. 
 
+My numbers were not identical to Rottman's, but they were pretty close. Per Rottman, "The difference in wrongness ratings between the highdosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060)." 
 
 #### Second analysis, the violin plot
 
-To create the violin plot, I used the instructions I found here http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization 
+Next, I tried to re-create Rottman's Figure 1, a violin plot. 
 
 
 ```{r include=T}
@@ -205,10 +265,14 @@ ggplot(mss, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
   stat_summary(fun.data = "mean_cl_boot", 
                aes(group = High_Dosage), position=position_dodge(width = 1)) +
   ggtitle("Violin Plot, Replication of Fig. 1") +
-  labs(x = "Type of Violation", y = "Wrongness Rating") 
+  labs(x = "Purity Violation", y = "Wrongness Rating") 
 
 
 ```
+
+
+The figure is not identical to Rottman's, but it shows the same main points. The high-dosage harm violations have the highest mean wrongness rating. The others hover around the high 60s to low 70s.
+
 
 #### Third analysis, the linear regression
 
@@ -227,7 +291,10 @@ summary(model)
 
 ```
 
-Rottman also ran his model without the interaction terms, to simplify, so I will do the same
+According to my linear mixed model, my key statistic, the interaction between domain and dosage, is 6.7. Again, this is not identical to Rottman's, but it is pretty similar. Rottman had found an interaction term of 9.599. I am not sure why my model is telling me that the result is not significant. The Rottman paper had stated: "Crucially, there was a significant interaction between domain and dosage, b = 9.599, SE = 1.821, p < .001, reflecting participants’ greater sensitivity to dosage for harm-based transgressions. Examining simple effects, we found that there was an effect of dosage both for harm transgressions, b = 13.999, SE = 1.288, p < .001, and for purity transgressions, b = 4.400, SE = 1.288, p = .001. Notably, however, the effect size of dosage for purity transgressions (d = 0.139) was less than one third of the effect size of dosage for harm transgressions (d = 0.441).
+
+
+Rottman also ran his model without the interaction terms, to simplify the main effects, so I will do the same
 ```{r include=T}
 ## Run the model without the interaction terms! Rottman also did this
 model2 <- lmer(Rating ~ Purity_Violation + High_Dosage + 
@@ -240,38 +307,28 @@ summary(model2)
 ```
 
 
+In this simplified linear model, I can see that domain (harm vs. purity) does not have a big effect (*about *3*), but dosage (high or low), does have a bigger effect (*about *7). 
+
+According to Rottman, this simplified linear model showed that: "Rerunning this model without the interaction term (to ensure more interpretable main effects) indicated that there was no overall effect of domain, b = 3.400, SE = 6.803, p = .625, thus revealing that the harm and purity transgressions were well matched for severity. Unsurprisingly, there was a clear effect of dosage, b = 9.199, SE = 0.915, p < .001, as high-dosage transgressions were judged to be more wrong than low-dosage transgressions."
+
+
 ### Exploratory analyses
 
-Any follow-up analyses desired (not required).  
+I was curious to see which moral violations were most offensive, and which were rated less wrong. So, I pulled together a chart that ranked the wrongness of each violation.
+
+Interesting. According to the chart, the very worst thing you can do is “purposely knock your sibling unconscious on many occasions.” Then the second-worst thing is to “starve a goat frequently.” But you’re barely immoral at all if you “kill two deer while hunting” -- this prompt had the lowest wrongness rating.
+
+The results seem to make sense. The highest-rated violations were both high-dosage harm violations, which fits with the prior chart. And the lowest-rated violation was a low-dosage harm violation.
+
 
 ```{r include=T}
 
-prompt <- d %>%
+MostWrong <- d %>%
   group_by(Prompt, Purity_Violation) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
 
-head(prompt)
-```
+print(MostWrong)
 
-Now how do I graph the above?
-
-```{r include=T}
-# View(prompt)
-
-# ggplot(prompt, aes(x= prompt$meanWrongness, color = prompt$High_Dosage)) + 
-  # geom_histogram(binwidth = 3) 
-  # ggtitle("Ages of Children in Study") +
-  # labs(x = "Age in Months", y = "Number of Children") 
-
-
-# ggplot(prompt, aes(x=prompt$Prompt, y=prompt$meanWrongness, color = prompt$High_Dosage)) + 
-  # geom_point(shape = ".") +
-  # geom_smooth() +
-  # facet_grid(prompt$Purity_Violation)
-  # ggtitle("Hand-Looking as a Function of Age and Condition") +
-  # labs(x = "Age in Months", y = "Amount of Time Hand-Looking")
-
-  
 ```
 
 
@@ -280,8 +337,11 @@ Now how do I graph the above?
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+Overall, my replication seems to have been successful: the difference in wrongness rating between the high-dosage and low-dosage violations was much higher for harm violations than for purity violations. My key statistic was the interaction between domain and dosage, where I found an interaction of about *7.* While this was not identical to Rottman's interaction, which was b = 9.599, it was still fairly similar.
+
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+In the future, I will look at the original author's code and data much sooner! It was extremely helpful and I wish I had run it earlier in my analysis.
+
+In addition, I will also reach out to the authors sooner. I was a bit intimidated to reach out to them, but once I did, they were incredibly kind and helpful! Their feedback was also very useful and I wish I had reached out sooner. 

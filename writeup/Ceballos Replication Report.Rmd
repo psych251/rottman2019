@@ -31,11 +31,10 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 
 ### Power Analysis
 
-[TBC after we discuss in class***]
+Rottman's original sample size was 177. His power analysis in the original paper relied on a complicated Monte Carlo simulation. The main effect that I am hoping to detect is the interaction between domain (harm vs. purity) and dosage type (low vs. high dosage) in a linear mixed model. Unfortunately, there is no ready-built package such as G*Power that does power analyses for linear mixed models. After a discussion with Mike, he advised me to do a simplified power analysis using Rottman's data.
 
-Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
+Mike advised to take Rottman's data, and look at the harm violations only (ignoring purity violations). I should compare the low-dosage harm violations and the high-dosage harm violations, and do a t-test. The t-test would give me a t-value which I could convert into an effect size, and then I could use GPower software to calculate the sample size needed for a replication.
 
-For the power analysis, I used G*Power and the original paper to calculate the following:
 
 ### Planned Sample
 
@@ -43,7 +42,7 @@ I followed Rottman's original study and selectd a target sample size of 200 tota
 
 ### Materials & Procedure
 
-My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in the text below.
+My replication study exactly followed the procedure of the Rottman study. The Rottman study described "Materials and Procedure" in one section, which I have copied into the text below.
 
 "After providing consent to participate in the study, each participant was presented with 16 violations that varied by domain (harm vs. purity), dosage (low vs. high), and dosage type (magnitude vs. frequency). Participants saw two violations from each of the eight possible combinations of these variable levels (see Table 1). The presentation of these violations was counterbalanced across participants such that each participant saw either a low- or a high-dosage version of each violation and saw the opposite dosage from a corresponding violation in the other content domain. For example, participants who judged “A person throws a large rock at a farm animal” did not see “A person throws a small rock at a farm animal” but instead saw “A person eats a small amount of flesh from a dead person.” The two attention-check questions were also randomly presented within this sequence. After each moral violation was presented, participants were asked, “How morally wrong was this action?” and were prompted to respond on a slider scale from 0 (not at all) to 100 (extremely). 
 
@@ -69,14 +68,10 @@ My study had a slightly different number of participants from Rottman's study. R
 
 ### Methods Addendum (Post Data Collection)
 
-You can comment this section out prior to final report with data collection.
-
-#### Actual Sample
-
-Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+Unfortunately, I was unable to collect the full 200 participant sample that I wanted. MTurk started running extremely slowly, even though I started my final data collection 9 days before the deadline. As a result, I only collected data from * * participants, not the full * * as I had planned. However, this should not cause any problems in the analysis because my sample size is still very large and well above the number I needed.
 
 #### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
+  None.
 
 
 ## Results
@@ -86,14 +81,20 @@ Sample size, demographics, data exclusions based on rules spelled out in analysi
 
 I created a survey on Qualtrics and linked that survey to Mechanical Turk. My survey had 16 questions, and each question has two dosages, so it is actually 32 questions total. In addition, my survey had two attention checks which were identical to Rottman's attention checks. All questions were provided in the Rottman 2019 paper. Each participant was presented with 16 moral violations that varied by domain (harm vs. purity violation) and by dosage (low dosage vs. high dosage). The 16 questions and 2 attention checks were presented randomly. At the end of the survey, I collected demographic information from participants.
 
+## Load Relevant Libraries 
+
 Load Relevant Libraries and Functions
 
 ```{r include=T}
 
 library(foreign) # for reading spss formatted data
 library(tidyverse)
+library(dplyr)
 
 ```
+
+## Import Data 
+
 
 Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R. In the Qualtrics exporter, make sure to select "Use numeric values" and then also select "Remove line breaks" before hitting "export."
 
@@ -116,7 +117,7 @@ colnames(df)
 
 I filtered out the people who failed the attention checks. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on the moral wrongness scale. Each participant saw both attention checks, and I excluded participants who failed either attention check.
 
-I also filtered out everyone who took the pilots. Qualtrics included all the data in one file, so my data file includes ALL the survey results, but I want to exclude the survey results from the pilots. Therefore, I created filters for the StartDate and EndDate.
+I also filtered out the results from my pilots. Qualtrics included all the data in one file, so my data file includes ALL the survey results, but I want to exclude the survey results from the pilots. Therefore, I created filters for the StartDate and EndDate.
 
 
 ```{r include=T}
@@ -124,8 +125,7 @@ I also filtered out everyone who took the pilots. Qualtrics included all the dat
 
 data <- df %>% 
     filter(StartDate > "12/4/2019 23:37") %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm.
-    filter( (Att1_8 > 49) & (Att2_4 < 51) )  ## Include only rows where the person passed the first and second attention checks.
-
+    filter((Att1_8 > 49) & (Att2_4 < 51))  ## Include only rows where the person passed the first and second attention checks.
 
 # To track how many people were excluded
 excluded_data <- df %>% 
@@ -137,7 +137,7 @@ nrow(data) # counts number of participants that were not excluded
 
 ```
 
-This seems reasonable. Of my 200 participants, I kept * and excluded *.
+This seems reasonable. Of my 200 participants, I kept * and excluded * who failed the attention checks.
 
 
 ### Tidy my data and make it longer
@@ -154,9 +154,6 @@ d <- data %>%
   filter(Prompt != "Att1_8") %>% # remove the wrongness ratings for the first attention check
   filter(Prompt != "Att2_4") # remove the wrongess ratings for the second attention check
 
-colnames(d)
-
-
 ```
 
 Now I only have five columns! Hurray! My data is nice and clean and long.
@@ -168,67 +165,9 @@ The analyses as specified in the analysis plan.
 
 ##### First analysis, difference of means
 
-I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing. I will do the calculations for the standard deviation separately, in a different chunk below.
-
-
-```{r include=T}
-
-means <- d %>%
-  group_by(Purity_Violation, High_Dosage) %>%
-  summarize(meanWrongness = (mean(Rating, na.rm=T)))
-
-head(means)
-```
+I'm trying to find the difference in the wrongness rating between the high-dosage and the low-dosage versions of the scenarios of the HARM transgressions. Then for the purity transgressions, I'll find the same thing. Then I will calculate the mean and the standard deviation of the difference in wrongness ratings, for both the purity and the harm.
 
 ```{r include=T}
-
-# Now I'll find the difference between high-dosage  and low-dosage harm violations, and high-dosage and low-dosage purity violations
-
-mean_Harm_LowDosage <- means[1,3]
-mean_Harm_HighDosage <- means[2,3]
-mean_Purity_LowDosage <- means[3,3]
-mean_Purity_HighDosage <- means[4,3]
-
-diff_means_harms <- mean_Harm_HighDosage - mean_Harm_LowDosage
-
-diff_means_purity <- mean_Purity_HighDosage - mean_Purity_LowDosage
-
-diff_means_harms
-diff_means_purity
-
-
-```
-
-My results here line up with Rottman's. In fact, the effect is even MORE pronounced.
-
-##### First analysis continued, standard deviation
-
-In this analysis, I am trying to find the SD of the differences. So I will take the mean for each subject in each condition, then take the difference. This will give me a difference score for each subject, and then I will compute the SD of that.
-
-```{r include=T}
-
-# First I'll do the analysis for the harm violations only.
-
-sd_data <- d %>%
-  filter(Purity_Violation == FALSE) %>%
-  group_by(mTurkCode, Purity_Violation, High_Dosage) %>%
-  summarize(Wrongness = (mean(Rating, na.rm=T)))
-
-wider_d <- sd_data %>%
-  pivot_wider(id_cols = mTurkCode, names_from = High_Dosage, values_from = Wrongness) %>%
-  rename(HIGH = "TRUE", LOW = "FALSE") %>%
-  mutate(Indv_Diff = HIGH - LOW)
-
-mean(wider_d$Indv_Diff)
-sd(wider_d$Indv_Diff)
-
-```
-
-```{r include=T}
-
-# Mike's alternative code for the SD and mean analysis:
-
-# I'm not sure if I'm doing the SD analysis correctly, so I'll go to Mike's office hours and work through his suggestion. Right now the code is not working. 
 
 # get condition means for each participant
 mss <- d %>%
@@ -237,38 +176,17 @@ mss <- d %>%
 
 # get difference scores for each participant. 
 diffs <- mss %>%
-  summarise(diff = Rating[High_Dosage] - Rating[!High_Dosage]) # this code is not working so I'll comment out
+  summarise(diff = Rating[High_Dosage] - Rating[!High_Dosage], na.rm=TRUE)
 
 # get mean and sd of those differences scores
 diffs %>%
   group_by(Purity_Violation) %>%
-  summarise(mean_diff = mean(diff),
-            sd_diff = sd(diff))
+  summarise(mean_diff = mean(diff, na.rm=TRUE), sd_diff = sd(diff, na.rm=TRUE))
 
 
 ```
 
-
-```{r include=T}
-
-# Next, I'll do the analysis for the purity violations only.
-
-sd_data_Purity <- d %>%
-  filter(Purity_Violation == TRUE) %>%
-  group_by(mTurkCode, Purity_Violation, High_Dosage) %>%
-  summarize(Wrongness = (mean(Rating, na.rm=T)))
-
-wider_d_Purity <- sd_data_Purity %>%
-  pivot_wider(id_cols = mTurkCode, names_from = High_Dosage, values_from = Wrongness) %>%
-  rename(HIGH = "TRUE", LOW = "FALSE") %>%
-  mutate(Indv_Diff = HIGH - LOW)
-
-mean(wider_d_Purity$Indv_Diff)
-sd(wider_d_Purity$Indv_Diff)
-
-```
-
-### Should my "mean" numbers be the same as above? Because they're not. Is something funky with my code, or is this okay?
+So I found the same effect as Rottman! 
 
 
 #### Second analysis, the violin plot
@@ -288,8 +206,6 @@ ggplot(mss, aes(x=Purity_Violation, y=Rating, fill=High_Dosage)) +
                aes(group = High_Dosage), position=position_dodge(width = 1)) +
   ggtitle("Violin Plot, Replication of Fig. 1") +
   labs(x = "Type of Violation", y = "Wrongness Rating") 
-
-## ** How do I add a stat_summary to the violin plot??***
 
 
 ```
@@ -334,8 +250,7 @@ prompt <- d %>%
   group_by(Prompt, Purity_Violation) %>%
   summarize(meanWrongness = (mean(Rating, na.rm=T)))
 
-View(prompt)
-
+head(prompt)
 ```
 
 Now how do I graph the above?

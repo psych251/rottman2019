@@ -1,0 +1,211 @@
+First, however, I had to get Rottman's data into workable form. I tried cleaning and tidying Rottman's data on my own, but it was very complicated, so I ended up just copying and pasting Rottman's code that he had used to tidy and clean his data. Below are Rottman's (rather long) code chunks, then followed by my t-test and power analysis.
+
+```{r include=T}
+
+#Import Rottman's original data and clean and tidy it, using Rottman's own code
+# I tried doing this code on my own but it was complicated, so I just used Rottman's own code
+
+## R code for running all analyses
+
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if(length(new.pkg)) install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)}
+
+packages <- c("lme4", "lmerTest", "reshape2", "Rmisc", "magrittr", "psych", "lsr",
+              "tidyverse", "ggthemes", "viridis", "grid", "simr", "emmeans")
+
+ipak(packages)
+
+custom.theme <- theme_tufte() + theme(panel.background = element_blank(), 
+                legend.key = element_blank(), legend.background = element_blank(),
+                legend.position = "right", legend.title = element_text(color = "black",
+                face = "bold", size = 14, family = "Helvetica", hjust = .5), 
+                legend.text = element_text(color = "black", face = "bold", size = 12,
+                family = "Helvetica"), strip.background = element_blank(), 
+                strip.text = element_text(color = "black", face = "bold", size = 12, 
+                family = "Helvetica"), panel.grid = element_blank(), axis.text =
+                element_text(color = "black", face = "bold", size = 12, 
+                family = "Helvetica"), axis.line = element_line(color = "black"),
+                axis.title = element_text(color = "black", face = "bold", size = 14, 
+                family = "Helvetica"), axis.text.x = element_text(vjust = .6))
+
+theme_set(custom.theme)
+
+posn.d <- position_dodge(0.95)
+
+emm_options(opt.digits = FALSE)
+
+#setwd("~/Desktop/Research/Dosage")
+
+Dosage.All <- read.csv('DosageData.csv', header = TRUE)
+
+Dosage.All$Study <- factor(Dosage.All$Study, levels = c(0, 1, 2, 3), 
+                    labels = c("Pilot Study", "Study 1", "Study 2", "Study 3"), 
+                    ordered = is.ordered(FALSE))
+Dosage.All$Gender <- factor(Dosage.All$Gender, levels = c(1, 2, 3), 
+                     labels = c("Male", "Female", "Other"), ordered = is.ordered(FALSE))
+Dosage.All$Race <- factor(Dosage.All$Race, levels = c(1, 2, 3, 4, 5, 6), 
+                   labels = c("White", "Asian", "African American", "Hispanic or Latino",
+                              "Native American", "Other"), ordered = is.ordered(FALSE))
+Dosage.All$English <- factor(Dosage.All$English, levels = c(1, 2), 
+                      labels = c("Fluent in English", "Not Fluent in English"), 
+                      ordered = is.ordered(FALSE))
+Dosage.All$Edu <- factor(Dosage.All$Edu, levels = c(1, 2, 3, 4, 5, 6), 
+                  labels = c("Some high school", "High school diploma or equivalent", 
+                             "Some college", "College degree", "Some graduate school",
+                             "Graduate degree"), ordered = is.ordered(TRUE))
+Dosage.All$Nat <- factor(Dosage.All$Nat, levels = c(31, 114, 140, 185, 186, 192),
+                  labels = c("Canada", "Mexico", "Poland", "United Kingdom", 
+                             "United States", "Vietnam"), ordered = is.ordered(FALSE))
+
+as_tibble(Dosage.All)
+glimpse(Dosage.All)
+
+```
+
+### Exclusions and Participant Characteristics (Rottman Code Cont.)
+```{r Exclusions and Participant Characteristics}
+
+Dosage.All$Exclude <- ifelse((Dosage.All$Planet_X_1 < 50), 1,
+                             ifelse((Dosage.All$Charity_X_1 > 50), 2, 0))
+
+which(duplicated(Dosage.All$WorkerID))
+
+Dosage.All[c(108, 111, 116, 127, 138, 164, 193, 232, 261, 262, 268, 284, 314, 315, 320,
+             326, 336, 337, 338, 350, 356, 363, 364, 370, 373, 379, 392, 393, 400, 402,
+             407, 443), 453] = 3
+
+Dosage.All$Exclude <- factor(Dosage.All$Exclude, levels = c(0, 1, 2, 3), 
+                      labels = c("Don't Exclude", "Missed Planet Attention Check", 
+                                 "Missed Charity Attention Check", "Duplicate Worker ID"),
+                      ordered = is.ordered(TRUE))
+
+Dosage.All %>% 
+  group_by(Study, Exclude, add = TRUE) %>% 
+  dplyr::summarize(excluded = n())
+
+Dosage <- filter(Dosage.All, Exclude == "Don't Exclude")
+
+Dosage %>% 
+  group_by(Study) %>% 
+  dplyr::summarize(mean.age = mean(Age), sd.age = sd(Age))
+
+Dosage %>% 
+  group_by(Study, Gender) %>% 
+  dplyr::summarize(gender = n())
+
+Dosage %>% 
+  group_by(Study, Race) %>% 
+  dplyr::summarize(race = n())
+
+```
+
+### Tidying Data (Rottman Code cont.)
+```{r Tidying}
+
+Dosage.Long <- select(Dosage, ID, Study, Asbestos_L_1:Whispers_H_3) %>%
+  gather(Asbestos_L_1:Whispers_H_3, key = "Item", value = "Rating", na.rm = T) %>% 
+  separate(col = Item, into = c("Item", "Dose", "Question"), sep = "_") %>% 
+  arrange(ID)
+
+Dosage.Long$Dose <- factor(Dosage.Long$Dose, levels = c("L", "H"), 
+                           labels = c("Low", "High"), ordered = is.ordered(TRUE))
+
+Dosage.Long$Question <- factor(Dosage.Long$Question, 
+                               levels = c("1", "2", "3", "4", "5", "6", 
+                                          "7", "8", "9", "10"),
+                               labels = c("Wrong", "Harmful", "Impure", "Angry",
+                                          "Disgusted", "RejectFromComm", 
+                                          "RejectOnCoop", "KindOfPerson", 
+                                          "ActSimilarly", "MoralIntegrity"))
+
+Dosage.Long$Domain <- ifelse(Dosage.Long$Item == "Asbestos" | Dosage.Long$Item == "Bruise"
+                         | Dosage.Long$Item == "Bully" | Dosage.Long$Item == "Deer"
+                         | Dosage.Long$Item == "Punch" | Dosage.Long$Item == "Rock"
+                         | Dosage.Long$Item == "Starve" | Dosage.Long$Item == "Uncons" 
+                         | Dosage.Long$Item == "Blood" | Dosage.Long$Item == "Choke" 
+                         | Dosage.Long$Item == "HazChem" | Dosage.Long$Item == "HotSauce"
+                         | Dosage.Long$Item == "Mercury" | Dosage.Long$Item == "PetFish"
+                         | Dosage.Long$Item == "PoisonLadybug" 
+                         | Dosage.Long$Item == "Thumbtack", 0, 
+                      ifelse(Dosage.Long$Item == "Goatsex" | Dosage.Long$Item == "Heroin"
+                         | Dosage.Long$Item == "Mast" | Dosage.Long$Item == "Incest"
+                         | Dosage.Long$Item == "Cannibal" | Dosage.Long$Item == "Corpse"
+                         | Dosage.Long$Item == "Sacred" | Dosage.Long$Item == "Graff" 
+                         | Dosage.Long$Item == "Ashes" | Dosage.Long$Item == "CowBlood" 
+                         | Dosage.Long$Item == "EatCorpse" 
+                         | Dosage.Long$Item == "EatLadybug" 
+                         | Dosage.Long$Item == "Genitals" | Dosage.Long$Item == "Genome" 
+                         | Dosage.Long$Item == "Urine" | Dosage.Long$Item == "Whispers",
+                         1, 99))
+
+Dosage.Long$Domain <- factor(Dosage.Long$Domain, levels = c("0", "1"), 
+                             labels = c("Harm", "Purity"))
+
+Dosage.Long$DoseType <- ifelse(Dosage.Long$Item == "Asbestos" 
+                        | Dosage.Long$Item == "Bully" | Dosage.Long$Item == "Starve" 
+                        | Dosage.Long$Item == "Uncons" | Dosage.Long$Item == "Goatsex" 
+                        | Dosage.Long$Item == "Heroin" | Dosage.Long$Item == "Incest" 
+                        | Dosage.Long$Item == "Mast", 0,
+                        ifelse(Dosage.Long$Item == "Bruise" | Dosage.Long$Item == "Deer"
+                        | Dosage.Long$Item == "Punch" | Dosage.Long$Item == "Rock" 
+                        | Dosage.Long$Item == "Cannibal" | Dosage.Long$Item == "Corpse" 
+                        | Dosage.Long$Item == "Graff" | Dosage.Long$Item == "Sacred",
+                        1, 99))
+
+Dosage.Long$DoseType <- factor(Dosage.Long$DoseType, levels = c("0", "1"), 
+                               labels = c("Frequency", "Magnitude"))
+
+Dosage.Long$ID <- factor(Dosage.Long$ID)
+Dosage.Long$Item <- factor(Dosage.Long$Item)
+
+Dosage.Tidy <- spread(Dosage.Long, "Question", "Rating")
+
+Dosage.Pilot <- filter(Dosage, Study == "Pilot Study")
+Dosage.S1 <- filter(Dosage, Study == "Study 1")
+Dosage.S2 <- filter(Dosage, Study == "Study 2")
+Dosage.S3 <- filter(Dosage, Study == "Study 3")
+
+Dosage.Long.Pilot <- filter(Dosage.Long, Study == "Pilot Study")
+Dosage.Long.S1 <- filter(Dosage.Long, Study == "Study 1")
+Dosage.Long.S2 <- filter(Dosage.Long, Study == "Study 2")
+Dosage.Long.S3 <- filter(Dosage.Long, Study == "Study 3")
+
+Dosage.Tidy.Pilot <- filter(Dosage.Tidy, Study == "Pilot Study")
+Dosage.Tidy.S1 <- filter(Dosage.Tidy, Study == "Study 1")
+Dosage.Tidy.S2 <- filter(Dosage.Tidy, Study == "Study 2")
+Dosage.Tidy.S3 <- filter(Dosage.Tidy, Study == "Study 3")
+
+
+```
+
+### My t-test and Power Analysis
+
+Now I finally have Rottman's cleaned, tidied data for Study 1. He has already excluded participants who failed the attention checks. Now I want to run my t-test on the low-dosage vs. high-dosage HARM questions.
+
+
+```{r include=T}
+
+# Use a filter to view ONLY the harm-related questions and exclude the purity-related questions 
+Dosage.Tidy.S1_Harm <- Dosage.Tidy.S1  %>%
+    filter(Domain == "Harm") # keep only the Harm prompts and exclude Purity
+
+# Assign all the high-dosage harm violations to x
+x <- Dosage.Tidy.S1_Harm %>%
+     filter(Dose == "High")
+  
+# Assign all the low-dosage harm violations to y
+y <- Dosage.Tidy.S1_Harm %>%
+     filter(Dose == "Low")
+
+# Run a t-test on x and y
+  t.test(x$Wrong, y$Wrong)
+
+```
+
+In the above, I ran a t-test on Rottman's own data, to compare the low-dosage harm violations with the high-dosage harm violations. I got a t-value of 9.4355 and df = 1371.4.
+
+Using these values, I can find the effect size. I used an online calculator available at https://www.uccs.edu/lbecker/ . Into the calculator, I input t-value = 9.4355 and df = 1371.4 and got a Cohen's d = 0.5095805486569233.
+
+Then I used the GPower software to calculate the power. I input "effect size = 0.5095805486569233" and ran the GPower software. According to GPower, I need a total sample size of 33 to get 95 percent power on a replication.

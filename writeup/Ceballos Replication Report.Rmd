@@ -76,7 +76,7 @@ In the above, I ran a t-test on Rottman's own data, to compare the low-dosage ha
 
 Using these values, I found the effect size. I used an online calculator available at https://www.uccs.edu/lbecker/ . Into the calculator, I input t-value = 9.4355 and df = 1371.4 and got a Cohen's d = 0.5095805486569233.
 
-Then I used the GPower software to calculate the power. I input "effect size = 0.5095805486569233" and ran the GPower software. According to GPower, I need a total sample size of 33 to get 95 percent power on a replication.
+Then I used the GPower software to calculate the power. I input "effect size = 0.5095805486569233" and "Tails: Two" and ran the GPower model for a "Correlation: point biserial model." According to GPower, I need a total sample size of 40 to get 95 percent power on a replication.
 
 
 

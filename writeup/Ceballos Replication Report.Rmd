@@ -172,7 +172,6 @@ I also filtered out the results from my pilots. Qualtrics included all the data 
 
 
 # Select only the results collected after Dec 4, 2019, which is when I started my final data collection on MTurk.
-
 df2 <- df[49:215,] # select rows 49 thru 215, which has all the data from after Dec 4, 2019. I found rows 49 thru 215 by manually looking at my dataframe df.
 
 data <- df2 %>% 
@@ -180,7 +179,6 @@ data <- df2 %>%
 
 # To track how many people were excluded
 excluded_data <- df2 %>% 
-    filter(StartDate > "12/4/2019 23:37") %>%
     filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
 
 nrow(excluded_data) # counts the number of rows that have been excluded
@@ -188,7 +186,7 @@ nrow(data) # counts number of participants that were not excluded
 
 ```
 
-This seems reasonable. Of my 166 participants, I kept 157 and excluded 5 who failed the attention checks.
+This seems reasonable. Of my 162 participants, I kept 157 and excluded 5 who failed the attention checks.
 
 
 ### Tidy my data and make it longer

@@ -29,7 +29,7 @@ https://stanforduniversity.qualtrics.com/jfe/form/SV_54k3tnFzYu5aXpr
 The link to my preregistration on the OSF is here:
 https://osf.io/n9q2w/?view_only=
 
-I used .gitignore to make sure that the Pilot B data and the Final Data did not go up on Github, since it had potentially identifying details. I had already accidentally pushed it up onto Github, but I walked through a Git tutorial with a friend and he helped me remove Pilot B file from Github permanently.
+I used .gitignore to make sure that the Pilot B data and the Final Data did not go up on Github, since it had potentially identifying details. I had already accidentally pushed it up onto Github, but I walked through a Git tutorial with a friend and he helped me remove Pilot B file from Github permanently. As an added precaution, I also manually deleted the columns that included the workers' IP Addresses and mTurk IDs.
 
 
 ## Methods
@@ -112,9 +112,9 @@ My study had a slightly different number of participants from Rottman's study. R
 
 ### Exclusions & Methods Addendum (Post Data Collection)
 
-Unfortunately, I was unable to collect the full 200 participant sample that I wanted. MTurk started running extremely slowly, even though I started my final data collection 9 days before the deadline. As a result, I only collected data from * * participants, not the full * * as I had planned. However, this should not cause any problems in the analysis because my sample size is still very large and well above the number I needed.
+Unfortunately, I was unable to collect the full 200 participant sample that I wanted. MTurk started running extremely slowly, even though I started my final data collection 9 days before the deadline. As a result, I only collected data from 162 participants, not the full 200 as I had planned. However, this should not cause any problems in the analysis because my sample size is still very large and well above the number I needed.
 
-In addition, I excluded * participants because they failed the attention checks. I used the same attention checks as Rottman. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on the moral wrongness scale. Each participant saw both attention checks, and I excluded participants who failed either attention check.
+In addition, I excluded 5 participants because they failed the attention checks. I used the same attention checks as Rottman. Per Rottman, you fail the attention check if you rate "a person destroys the entire planet" below 49 on the moral wrongness scale, or if you rate "a person gives money to a charitable organization" above 51 on the moral wrongness scale. Each participant saw both attention checks, and I excluded participants who failed either attention check.
 
 #### Differences from pre-data collection methods plan
   None.
@@ -127,7 +127,7 @@ In addition, I excluded * participants because they failed the attention checks.
 
 I created a survey on Qualtrics and linked that survey to Mechanical Turk. My survey had 16 questions, and each question has two dosages, so it is actually 32 questions total, plus the two attention checks, plus some demographic information. All the moral violation prompts were provided in the Rottman 2019 paper. Each participant was presented with 16 moral violations that varied by domain (harm vs. purity violation) and by dosage (low dosage vs. high dosage). The 16 questions and 2 attention checks were presented randomly. At the end of the survey, I collected demographic information from participants.
 
-## Load Relevant Libraries 
+### Load Relevant Libraries 
 
 Load Relevant Libraries and Functions
 
@@ -139,7 +139,7 @@ library(dplyr)
 
 ```
 
-## Import Data 
+### Import Data 
 
 
 Import data, using the workaround Mike sent to the class in order to read Qualtrics data into R. In the Qualtrics exporter, make sure to select "Use numeric values" and then also select "Remove line breaks" before hitting "export."
@@ -157,6 +157,7 @@ colnames(df)= headers
 
 colnames(df)
 
+
 ```
 
 #### Data exclusion / filtering
@@ -169,12 +170,16 @@ I also filtered out the results from my pilots. Qualtrics included all the data 
 ```{r include=T}
 #### Data exclusion / filtering
 
-data <- df %>% 
-    filter(StartDate > "12/4/2019 23:37") %>% # keep only the results collected after Dec 4, 2019 at 11:37 pm.
-    filter((Att1_8 > 49) & (Att2_4 < 51))  ## Include only rows where the person passed the first and second attention checks.
+
+# Select only the results collected after Dec 4, 2019, which is when I started my final data collection on MTurk.
+
+df2 <- df[49:215,] # select rows 49 thru 215, which has all the data from after Dec 4, 2019. I found rows 49 thru 215 by manually looking at my dataframe df.
+
+data <- df2 %>% 
+  filter((Att1_8 > 49) & (Att2_4 < 51))  ## Include only rows where the person passed the first and second attention checks.
 
 # To track how many people were excluded
-excluded_data <- df %>% 
+excluded_data <- df2 %>% 
     filter(StartDate > "12/4/2019 23:37") %>%
     filter( (Att1_8 <= 49) | (Att2_4 >= 51) )
 
@@ -183,7 +188,7 @@ nrow(data) # counts number of participants that were not excluded
 
 ```
 
-This seems reasonable. Of my 200 participants, I kept * and excluded * who failed the attention checks.
+This seems reasonable. Of my 166 participants, I kept 157 and excluded 5 who failed the attention checks.
 
 
 ### Tidy my data and make it longer
@@ -247,7 +252,7 @@ diffs %>%
 
 ```
 
-So I found the same effect as Rottman! The difference in wrongness rating between high- and low-dosage violations was much higher for harm violations *(11.5)* than for purity violations *(4.5)*. 
+So I found the same effect as Rottman! The difference in wrongness rating between high- and low-dosage violations was much higher for harm violations (about 11.5) than for purity violations (about 4.5). 
 
 My numbers were not identical to Rottman's, but they were pretty close. Per Rottman, "The difference in wrongness ratings between the highdosage and low-dosage versions of the scenarios was substantially higher for the harm transgressions (mean difference = 14.605; SD = 20.395) than for the purity transgressions (mean difference = 4.185; SD = 16.060)." 
 
@@ -293,7 +298,7 @@ summary(model)
 
 ```
 
-According to my linear mixed model, my key statistic, the interaction between domain and dosage, is 6.7. Again, this is not identical to Rottman's, but it is pretty similar. Rottman had found an interaction term of 9.599. I am not sure why my model is telling me that the result is not significant. The Rottman paper had stated: "Crucially, there was a significant interaction between domain and dosage, b = 9.599, SE = 1.821, p < .001, reflecting participants’ greater sensitivity to dosage for harm-based transgressions. Examining simple effects, we found that there was an effect of dosage both for harm transgressions, b = 13.999, SE = 1.288, p < .001, and for purity transgressions, b = 4.400, SE = 1.288, p = .001. Notably, however, the effect size of dosage for purity transgressions (d = 0.139) was less than one third of the effect size of dosage for harm transgressions (d = 0.441).
+According to my linear mixed model, my key statistic, the interaction between domain and dosage, is about 6.8. Again, this is not identical to Rottman's, but it is pretty similar. Rottman had found an interaction term of 9.599. I am not sure why my model is telling me that the result is not significant. The Rottman paper had stated: "Crucially, there was a significant interaction between domain and dosage, b = 9.599, SE = 1.821, p < .001, reflecting participants’ greater sensitivity to dosage for harm-based transgressions. Examining simple effects, we found that there was an effect of dosage both for harm transgressions, b = 13.999, SE = 1.288, p < .001, and for purity transgressions, b = 4.400, SE = 1.288, p = .001. Notably, however, the effect size of dosage for purity transgressions (d = 0.139) was less than one third of the effect size of dosage for harm transgressions (d = 0.441).
 
 
 Rottman also ran his model without the interaction terms, to simplify the main effects, so I will do the same
@@ -309,7 +314,7 @@ summary(model2)
 ```
 
 
-In this simplified linear model, I can see that domain (harm vs. purity) does not have a big effect (*about *3*), but dosage (high or low), does have a bigger effect (*about *7). 
+In this simplified linear model, I can see that domain (harm vs. purity) does not have a big effect (about 3.5), but dosage (high or low), does have a bigger effect (about 7.4). 
 
 According to Rottman, this simplified linear model showed that: "Rerunning this model without the interaction term (to ensure more interpretable main effects) indicated that there was no overall effect of domain, b = 3.400, SE = 6.803, p = .625, thus revealing that the harm and purity transgressions were well matched for severity. Unsurprisingly, there was a clear effect of dosage, b = 9.199, SE = 0.915, p < .001, as high-dosage transgressions were judged to be more wrong than low-dosage transgressions."
 
@@ -331,6 +336,7 @@ MostWrong <- d %>%
 
 print(MostWrong)
 
+
 ```
 
 
@@ -339,7 +345,7 @@ print(MostWrong)
 
 ### Summary of Replication Attempt
 
-Overall, my replication seems to have been successful: the difference in wrongness rating between the high-dosage and low-dosage violations was much higher for harm violations than for purity violations. My key statistic was the interaction between domain and dosage, where I found an interaction of about *7.* While this was not identical to Rottman's interaction, which was b = 9.599, it was still fairly similar.
+Overall, my replication seems to have been successful: the difference in wrongness rating between the high-dosage and low-dosage violations was much higher for harm violations than for purity violations. My key statistic was the interaction between domain and dosage, where I found an interaction of about 6.8. While this was not identical to Rottman's interaction, which was b = 9.599, it was still fairly similar.
 
 
 ### Commentary
